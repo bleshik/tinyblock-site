@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiny Block — mine, craft, discover</title>
+  <meta name="description" content="Tiny Block is a cozy 2D skyblock adventure. Mine floating islands, craft new materials, and explore worlds that keep evolving.">
+  <meta name="theme-color" content="#4aa3d8">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://tinyblock.nosuchgames.com/">
+  <meta property="og:title" content="Tiny Block">
+  <meta property="og:description" content="Mine, craft, and discover in a living 2D skyblock world.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tinyblock.nosuchgames.com/">
+  <meta property="og:image" content="https://tinyblock.nosuchgames.com/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud cloud-a"></div>
+    <div class="cloud cloud-b"></div>
+    <div class="cloud cloud-c"></div>
+    <div class="birds">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <main class="hero">
+    <div class="copy">
+      <p class="brand">Tiny Block</p>
+      <h1>Mine. Craft. Discover.</h1>
+      <p class="lede">A cozy 2D skyblock where floating islands grow with you — new materials, plants, and creatures wait beyond every horizon.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#play">Coming soon on iOS</a>
+        <a class="btn btn-ghost" href="https://github.com/bleshik/tinyblock" rel="noopener">GitHub</a>
+      </div>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <div class="island float">
+        <svg viewBox="0 0 240 180" role="img" aria-label="Floating island">
+          <ellipse cx="120" cy="168" rx="70" ry="8" fill="rgba(15,40,70,0.18)"/>
+          <path fill="#6b4423" d="M48 96h144l-18 42c-8 18-28 28-54 28s-46-10-54-28z"/>
+          <path fill="#8b6914" d="M48 96h144v18H48z"/>
+          <path fill="#5cb85c" d="M40 78c0-8 8-16 18-16h124c10 0 18 8 18 16v18H40z"/>
+          <path fill="#7ed957" d="M52 66h96c8 0 14 6 14 12v8H48v-8c0-6 2-12 4-12z"/>
+          <rect x="108" y="34" width="18" height="40" fill="#6b4423"/>
+          <ellipse cx="117" cy="28" rx="36" ry="18" fill="#3d8c40"/>
+          <ellipse cx="100" cy="34" rx="18" ry="12" fill="#54b948"/>
+          <ellipse cx="136" cy="32" rx="20" ry="14" fill="#54b948"/>
+          <rect x="72" y="70" width="14" height="14" fill="#c4a574"/>
+          <rect x="158" y="70" width="14" height="14" fill="#7a8a9a"/>
+          <rect x="88" y="84" width="14" height="14" fill="#5a9fd4"/>
+        </svg>
+        <div class="bot bob">
+          <span class="bot-head"></span>
+          <span class="bot-body"></span>
+        </div>
+      </div>
+      <div class="block block-dirt drift-a"></div>
+      <div class="block block-grass drift-b"></div>
+      <div class="block block-stone drift-c"></div>
+    </div>
+  </main>
+
+  <section class="about" id="play">
+    <h2>A world that keeps inventing itself</h2>
+    <p>Start on a tiny island, then craft your way into procedural biomes, rare structures, and discoveries nobody else has seen yet.</p>
+    <p class="by">Made by <a href="https://nosuchgames.com" rel="noopener">No Such Games</a></p>
+  </section>
+
+  <script>
+    document.documentElement.classList.add("ready");
+  </script>
+</body>
+</html>
