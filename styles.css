@@ -190,12 +190,20 @@ h1 {
 }
 
 .lede {
-  margin: 0 0 1.8rem;
+  margin: 0 0 1rem;
   font-size: 1.12rem;
   line-height: 1.55;
   font-weight: 700;
   color: rgba(20, 48, 71, 0.86);
   max-width: 28rem;
+}
+
+.platforms {
+  margin: 0 0 1.5rem;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: rgba(20, 48, 71, 0.72);
 }
 
 .cta {
