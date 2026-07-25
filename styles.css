@@ -9,6 +9,8 @@
   --ink: #143047;
   --foam: #f4fbff;
   --accent: #ffc857;
+  --studio-name: #216247;
+  --studio-name-on-sky: #fff0a8;
   --shadow: rgba(12, 36, 58, 0.22);
   --font-display: "Lilita One", "Arial Rounded MT Bold", system-ui, sans-serif;
   --font-body: "Nunito", "Trebuchet MS", system-ui, sans-serif;
@@ -398,6 +400,20 @@ html.ready .stage {
 .by a {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.studio-name {
+  color: var(--studio-name);
+  font-weight: 800;
+}
+
+.about .studio-name {
+  color: var(--studio-name-on-sky);
+  text-shadow: 0 1px 3px rgba(12, 36, 58, 0.45);
+}
+
+.creator-footer a:hover .studio-name {
+  color: var(--foam);
 }
 
 .creator-callout {
