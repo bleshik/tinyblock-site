@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4R6BQWQX6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      region: ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU", "MT", "NL", "NO", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "GB", "CH"]
+    });
+    gtag("js", new Date());
+    gtag("config", "G-M4R6BQWQX6");
+  </script>
+  <script defer src="/assets/analytics.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tiny Block — mine, craft, discover</title>
@@ -37,8 +53,8 @@
       <p class="lede">A cozy 2D skyblock where floating islands grow with you — new materials, plants, and creatures wait beyond every horizon.</p>
       <p class="platforms">Available on iOS · Android</p>
       <div class="cta">
-        <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455" rel="noopener" target="_blank">App Store</a>
-        <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock" rel="noopener" target="_blank">Google Play</a>
+        <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="app_store">App Store</a>
+        <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="google_play">Google Play</a>
       </div>
     </div>
 
@@ -79,13 +95,13 @@
     <p class="creator-kicker">Creators &amp; streamers</p>
     <h2 id="creator-title">Become part of the world.</h2>
     <p>Help shape a creature, item, plant, or discovery your audience can find inside Tiny Block.</p>
-    <a class="btn btn-primary" href="/creators/">Meet the Founding Worldshapers</a>
+    <a class="btn btn-primary" href="/creators/" data-analytics-event="creator_program_click" data-analytics-program="tinyblock">Meet the Founding Worldshapers</a>
   </section>
 
   <footer class="site-foot">
     <a href="/privacy/">Privacy Policy</a>
-    <a href="/creators/">Creators</a>
-    <a href="https://nosuchgames.com/collaborate/" rel="noopener">Other partnerships</a>
+    <a href="/creators/" data-analytics-event="creator_program_click" data-analytics-program="tinyblock">Creators</a>
+    <a href="https://nosuchgames.com/collaborate/" rel="noopener" data-analytics-event="collaboration_program_click" data-analytics-program="studio">Other partnerships</a>
   </footer>
 
   <script>

@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4R6BQWQX6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      region: ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU", "MT", "NL", "NO", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "GB", "CH"]
+    });
+    gtag("js", new Date());
+    gtag("config", "G-M4R6BQWQX6");
+  </script>
+  <script defer src="/assets/analytics.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Founding Worldshapers — Tiny Block</title>
@@ -38,7 +54,7 @@
         <h1>Become part of the world.<br>Not just the ad.</h1>
         <p class="creator-lede">We’re inviting creators to shape something their audience can discover inside Tiny Block—from a rare creature to a strange material with its own behavior.</p>
         <div class="cta">
-          <a class="btn btn-primary" href="mailto:feedback@nosuchgames.com?subject=Tiny%20Block%20creator%20collaboration">Pitch a collaboration</a>
+          <a class="btn btn-primary" href="mailto:feedback@nosuchgames.com?subject=Tiny%20Block%20creator%20collaboration" data-analytics-event="collaboration_contact" data-analytics-program="tinyblock">Pitch a collaboration</a>
           <a class="btn btn-ghost" href="/">Explore Tiny Block</a>
         </div>
       </header>
@@ -116,14 +132,14 @@
         <p class="creator-eyebrow">Interested?</p>
         <h2 id="contact-title">Tell us about your channel and your idea.</h2>
         <p>Send a link to your work, your main platform and language, and the kind of Tiny Block collaboration you would enjoy making.</p>
-        <a class="btn btn-primary" href="mailto:feedback@nosuchgames.com?subject=Tiny%20Block%20creator%20collaboration">feedback@nosuchgames.com</a>
+        <a class="btn btn-primary" href="mailto:feedback@nosuchgames.com?subject=Tiny%20Block%20creator%20collaboration" data-analytics-event="collaboration_contact" data-analytics-program="tinyblock">feedback@nosuchgames.com</a>
       </section>
     </main>
 
     <footer class="creator-footer">
       <a href="/">Tiny Block</a>
       <a href="/privacy/">Privacy</a>
-      <a href="https://nosuchgames.com/collaborate/" rel="noopener">Other No Such Games partnerships</a>
+      <a href="https://nosuchgames.com/collaborate/" rel="noopener" data-analytics-event="collaboration_program_click" data-analytics-program="studio">Other No Such Games partnerships</a>
     </footer>
   </div>
 
