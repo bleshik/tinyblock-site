@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tinyblock.nosuchgames.com/sitemap.xml

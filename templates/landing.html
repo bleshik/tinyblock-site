@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="$html_lang" dir="$direction">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4R6BQWQX6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      region: ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU", "MT", "NL", "NO", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "GB", "CH"]
+    });
+    gtag("js", new Date());
+    gtag("config", "G-M4R6BQWQX6");
+  </script>
+  <script defer src="/assets/analytics.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$seo_title</title>
+  <meta name="description" content="$meta_description">
+  <meta name="theme-color" content="#4aa3d8">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="canonical" href="$canonical_url">
+$alternate_links
+  <meta property="og:title" content="$seo_title">
+  <meta property="og:description" content="$meta_description">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="$canonical_url">
+  <meta property="og:locale" content="$og_locale">
+$og_alternates
+  <meta property="og:image" content="https://tinyblock.nosuchgames.com/og-seo.png">
+  <meta property="og:image:width" content="1536">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="$hero_alt">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="$seo_title">
+  <meta name="twitter:description" content="$meta_description">
+  <meta name="twitter:image" content="https://tinyblock.nosuchgames.com/og-seo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="application/ld+json">$structured_data</script>
+</head>
+<body class="landing-page">
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="cloud cloud-a"></div>
+    <div class="cloud cloud-b"></div>
+    <div class="cloud cloud-c"></div>
+    <div class="birds"><span></span><span></span><span></span></div>
+  </div>
+
+  <header class="site-nav">
+    <a class="site-nav-brand" href="$home_path" aria-label="Tiny Block">Tiny Block</a>
+    <details class="language-menu">
+      <summary aria-label="$language_menu_label">$current_language</summary>
+      <nav aria-label="$language_menu_label">
+$language_links
+      </nav>
+    </details>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="copy">
+        <p class="brand">Tiny Block</p>
+        <h1>$h1</h1>
+        <p class="lede">$lede</p>
+        <p class="platforms">$platforms</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="$code">$app_store_label</a>
+          <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="$code">$google_play_label</a>
+        </div>
+      </div>
+
+      <div class="stage" aria-hidden="true">
+        <div class="hero-art-shell float">
+          <img class="hero-art" src="/og-image.png" alt="" width="512" height="512">
+        </div>
+        <div class="block block-dirt drift-a"></div>
+        <div class="block block-grass drift-b"></div>
+        <div class="block block-stone drift-c"></div>
+      </div>
+    </section>
+
+    <section class="about seo-intro" aria-labelledby="about-title">
+      <h2 id="about-title">$about_title</h2>
+      <p>$about_copy</p>
+      <p class="by">$studio_label <a href="https://nosuchgames.com" rel="noopener"><span class="studio-name">No Such Games</span></a></p>
+    </section>
+
+    <section class="feature-grid" aria-label="$features_label">
+$feature_cards
+    </section>
+
+    <section class="faq-section" aria-labelledby="faq-title">
+      <p class="section-kicker">Tiny Block</p>
+      <h2 id="faq-title">$faq_title</h2>
+      <div class="faq-grid">
+$faq_items
+      </div>
+    </section>
+
+    <section class="creator-callout" aria-labelledby="creator-title">
+      <p class="creator-kicker">$creator_kicker</p>
+      <h2 id="creator-title">$creator_title</h2>
+      <p>$creator_copy</p>
+      <a class="btn btn-primary" href="/creators/" data-analytics-event="creator_program_click" data-analytics-program="tinyblock" data-analytics-language="$code">$creator_cta</a>
+    </section>
+  </main>
+
+  <footer class="site-foot localized-foot">
+    <a href="/privacy/">$privacy_label</a>
+    <a href="/creators/" data-analytics-event="creator_program_click" data-analytics-program="tinyblock">$creators_label</a>
+    <a href="https://nosuchgames.com" rel="noopener">No Such Games</a>
+  </footer>
+
+  <script>document.documentElement.classList.add("ready");</script>
+</body>
+</html>

@@ -22,6 +22,10 @@
       parameters.program = link.dataset.analyticsProgram;
     }
 
+    if (link.dataset.analyticsLanguage) {
+      parameters.language = link.dataset.analyticsLanguage;
+    }
+
     window.gtag("event", link.dataset.analyticsEvent, parameters);
   });
 }());
