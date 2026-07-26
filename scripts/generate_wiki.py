@@ -8,7 +8,7 @@ import html
 import json
 from pathlib import Path
 
-from wiki_i18n import TERMS, TEXT
+from wiki_i18n import BIOME_VARIETY, TERMS, TEXT
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -166,6 +166,10 @@ def infinite_banner(text: dict[str, str]) -> str:
     return f'<aside class="wiki-infinite"><p class="wiki-label">{esc(text["infinite_kicker"])}</p><h2>{esc(text["infinite_title"])}</h2><p>{esc(text["infinite_copy"])}</p><div class="wiki-infinite-mark" aria-hidden="true">∞</div></aside>'
 
 
+def biome_variety_banner(text: dict[str, str]) -> str:
+    return f'<aside class="wiki-infinite wiki-biome-variety"><p class="wiki-label">{esc(text["kicker"])}</p><h2>{esc(text["title"])}</h2><p>{esc(text["copy"])}</p><div class="wiki-infinite-mark" aria-hidden="true">∞</div></aside>'
+
+
 def render() -> None:
     locales, catalog = load_catalog()
     for locale in locales:
@@ -183,7 +187,7 @@ def render() -> None:
             localized_name = TERMS[code][slug]
             description = f'<p>{esc(copy)}</p>' if code == "en" else ""
             biome_cards.append(f'<article class="wiki-entry wiki-entry-media"><img src="/assets/wiki/biomes/{image}" alt="{esc(localized_name)} — Tiny Block" width="{image_width}" height="739" loading="lazy"><div><p class="wiki-label">{esc(text["biome"])}</p><h2>{esc(localized_name)}</h2>{description}<dl><dt>{esc(text["terrain"])}</dt><dd>{esc(localize_list(terrain, code, catalog))}</dd><dt>{esc(text["plants"])}</dt><dd>{esc(localize_list(plants, code, catalog))}</dd><dt>{esc(text["creatures"])}</dt><dd>{esc(localize_list(creatures, code, catalog))}</dd></dl></div></article>')
-        page(text["biomes"], text["biomes_intro"], "wiki/biomes/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["world"])}</p><h1>{esc(text["biomes"])}</h1><p>{esc(text["biomes_intro"])}</p></section><div class="wiki-stack">{"".join(biome_cards)}</div>', locale, locales)
+        page(text["biomes"], text["biomes_intro"], "wiki/biomes/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["world"])}</p><h1>{esc(text["biomes"])}</h1><p>{esc(text["biomes_intro"])}</p></section>{biome_variety_banner(BIOME_VARIETY[code])}<div class="wiki-stack">{"".join(biome_cards)}</div>', locale, locales)
         page(text["materials"], text["materials_intro"], "wiki/materials/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["mining"])}</p><h1>{esc(text["materials"])}</h1><p>{esc(text["materials_intro"])}</p></section>{infinite_banner(text)}{card_grid(MATERIALS, text["material"], "materials", code, catalog)}', locale, locales)
         creature_items = [(name, f'{copy} Habitat: {habitat}.', slug) for name, copy, habitat, slug in CREATURES]
         page(text["creatures"], text["creatures_intro"], "wiki/creatures/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["living"])}</p><h1>{esc(text["creatures"])}</h1><p>{esc(text["creatures_intro"])}</p></section>{infinite_banner(text)}{card_grid(creature_items, text["creature"], "creatures", code, catalog)}', locale, locales)

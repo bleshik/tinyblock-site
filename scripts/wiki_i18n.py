@@ -15,6 +15,21 @@ TEXT = {
     "zh-hant": {"play":"免費遊玩","language":"選擇語言","wiki":"百科","biomes":"生態域","materials":"材料","creatures":"生物","plants":"植物","recipes":"合成配方","official":"官方遊戲指南","overview":"探索Tiny Block中的生態域、材料、配方、植物和生物。","guide":"指南","catalog":"查看共享的初始發現，然後創造屬於你的發現。","world":"世界生成","biomes_intro":"浮空島從明亮平原延伸至冰川、海灘、洞穴與火山地帶。","biome":"生態域","terrain":"地形","mining":"採掘與建造","materials_intro":"材料相遇時會流動、墜落、凍結、燃燒並發生轉化。","material":"材料","living":"鮮活世界","creatures_intro":"認識在陽光、水域、洞穴與熔岩中表現各異的生物。","creature":"生物","growing":"生長發現","plants_intro":"發現花朵、藤蔓、裝飾植物與各生態域的樹木。","plant":"植物","crafting":"合成","recipes_intro":"組合發現，解鎖工具、儲物、建築方塊與照明。","ingredients":"材料","result":"結果","recipe_caption":"遊戲內配方圖鑑會顯示目前世界中的發現可以合成什麼。","game":"遊戲","creators":"創作者","privacy":"隱私權政策","infinite_kicker":"超越基礎圖鑑","infinite_title":"你的發現不會止步於此","infinite_copy":"這裡展示的是所有玩家共享的初始發現，並非完整清單。在遊戲中組合你找到的內容，創造新材料、物品、植物與生物；可能的組合空間會持續成長。"},
 }
 
+BIOME_VARIETY = {
+    "en": {"kicker":"Every world is different","title":"Biomes form new landscapes","copy":"These are the core environments, not fixed maps. Each seed rearranges terrain, caves, water, structures, plants, and creatures into a different world."},
+    "de": {"kicker":"Jede Welt ist anders","title":"Biome formen neue Landschaften","copy":"Dies sind die grundlegenden Umgebungen, keine festen Karten. Jeder Seed ordnet Gelände, Höhlen, Wasser, Bauwerke, Pflanzen und Kreaturen zu einer anderen Welt an."},
+    "es": {"kicker":"Cada mundo es diferente","title":"Los biomas forman nuevos paisajes","copy":"Estos son los entornos básicos, no mapas fijos. Cada semilla reorganiza terreno, cuevas, agua, estructuras, plantas y criaturas para crear un mundo diferente."},
+    "fr": {"kicker":"Chaque monde est différent","title":"Les biomes créent de nouveaux paysages","copy":"Ce sont les environnements de base, pas des cartes figées. Chaque graine réorganise terrain, grottes, eau, structures, plantes et créatures pour former un monde différent."},
+    "it": {"kicker":"Ogni mondo è diverso","title":"I biomi formano nuovi paesaggi","copy":"Questi sono gli ambienti di base, non mappe fisse. Ogni seed dispone terreno, grotte, acqua, strutture, piante e creature in un mondo diverso."},
+    "pt-br": {"kicker":"Cada mundo é diferente","title":"Biomas formam novas paisagens","copy":"Estes são os ambientes básicos, não mapas fixos. Cada semente reorganiza terreno, cavernas, água, estruturas, plantas e criaturas em um mundo diferente."},
+    "ar": {"kicker":"كل عالم مختلف","title":"المناطق الحيوية تصنع مناظر جديدة","copy":"هذه بيئات أساسية وليست خرائط ثابتة. تعيد كل بذرة ترتيب التضاريس والكهوف والماء والمنشآت والنباتات والمخلوقات لتشكّل عالمًا مختلفًا."},
+    "ja": {"kicker":"ワールドごとに違う","title":"バイオームが新しい景色を作る","copy":"ここにあるのは基本環境であり、固定マップではありません。シードごとに地形、洞窟、水、建造物、植物、生き物の配置が変わり、異なる世界が生まれます。"},
+    "ko": {"kicker":"세계마다 다릅니다","title":"생물군계가 새로운 풍경을 만듭니다","copy":"여기에 나온 것은 기본 환경이며 고정된 지도가 아닙니다. 시드마다 지형, 동굴, 물, 구조물, 식물과 생물의 배치가 달라져 새로운 세계가 만들어집니다."},
+    "ru": {"kicker":"Каждый мир уникален","title":"Биомы складываются в новые ландшафты","copy":"Это базовые природные зоны, а не готовые карты. Каждый сид по-новому соединяет рельеф, пещеры, воду, постройки, растения и существ — так появляются разные миры."},
+    "zh-hans": {"kicker":"每个世界都不同","title":"生物群系组合成全新景观","copy":"这些是基础环境，并非固定地图。每个种子都会重新排列地形、洞穴、水域、结构、植物与生物，形成不同的世界。"},
+    "zh-hant": {"kicker":"每個世界都不同","title":"生態域組合成全新景觀","copy":"這些是基礎環境，並非固定地圖。每個種子都會重新排列地形、洞穴、水域、建築、植物與生物，形成不同的世界。"},
+}
+
 TERMS = {
     "en": ["Plains","Forest","Tundra","Ice Fields","Desert","Obsidian Wastes","Beach","Riverbank","Cavern","Volcanic","Oak","Palm","Pine","Meadow Bloom","Prairie Sprig","Cave Vines","Weeping Tree","Packed Ice","Lantern","Stone Bricks","Sandstone","Watcher Bloom","Cave Spider"],
     "de": ["Ebenen","Wald","Tundra","Eisfelder","Wüste","Obsidian-Ödland","Strand","Flussufer","Höhle","Vulkanland","Eiche","Palme","Kiefer","Wiesenblüte","Präriespross","Höhlenranken","Trauerbaum","Packeis","Laterne","Steinziegel","Sandstein","Wächterblüte","Höhlenspinne"],
