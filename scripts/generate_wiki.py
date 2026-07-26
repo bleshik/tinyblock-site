@@ -178,7 +178,8 @@ def render() -> None:
 
     biome_cards = []
     for name, copy, terrain, plants, creatures, image in BIOMES:
-        media = f'<img src="/assets/wiki/biomes/{image}" alt="{esc(name)} biome in Tiny Block" width="1600" height="739" loading="lazy">' if image else ""
+        image_width, image_height = (1498, 739) if image == "beach.webp" else (1600, 739)
+        media = f'<img src="/assets/wiki/biomes/{image}" alt="{esc(name)} biome in Tiny Block" width="{image_width}" height="{image_height}" loading="lazy">' if image else ""
         biome_cards.append(f'<article class="wiki-entry wiki-entry-media">{media}<div><p class="wiki-label">Biome</p><h2>{esc(name)}</h2><p>{esc(copy)}</p><dl><dt>Terrain</dt><dd>{esc(terrain)}</dd><dt>Plants</dt><dd>{esc(plants)}</dd><dt>Creatures</dt><dd>{esc(creatures)}</dd></dl></div></article>')
     page("Biomes", "Discover the ten current Tiny Block biomes, their terrain, plants, creatures, fluids, and environmental character.", "wiki/biomes/", '<section class="wiki-title"><p class="wiki-eyebrow">World generation</p><h1>Biomes</h1><p>Floating Islands can lead from bright plains to glaciers, beaches, caverns, and volcanic ground.</p></section><div class="wiki-stack">' + "".join(biome_cards) + "</div>")
 
