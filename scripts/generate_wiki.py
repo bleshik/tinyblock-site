@@ -169,7 +169,7 @@ def recipe_group(items: tuple[tuple[str, int, str], ...]) -> str:
 
 
 def render() -> None:
-    overview = '''<section class="wiki-hero"><p class="wiki-eyebrow">Official game guide</p><h1>Tiny Block Wiki</h1><p>Explore the biomes, materials, recipes, plants, and creatures already living inside Tiny Block.</p><img src="/assets/wiki/gameplay/05-random-world.webp" alt="A generated floating island in Tiny Block" width="1600" height="900"></section>'''
+    overview = '''<section class="wiki-hero"><p class="wiki-eyebrow">Official game guide</p><h1>Tiny Block Wiki</h1><p>Explore the biomes, materials, recipes, plants, and creatures already living inside Tiny Block.</p><img src="/assets/wiki/gameplay/05-random-world.webp" alt="A generated floating island in Tiny Block" width="1600" height="738"></section>'''
     overview += '<div class="wiki-grid">' + "".join(
         f'<a class="wiki-card wiki-card-link" href="{href}"><p class="wiki-label">Guide</p><h2>{esc(label)}</h2><p>Open the current in-game catalog and learn where each discovery fits.</p></a>'
         for label, href in NAV[1:]
@@ -190,7 +190,7 @@ def render() -> None:
     page("Plants", "Explore Tiny Block flowers, vines, decorative plants, and biome-specific trees.", "wiki/plants/", '<section class="wiki-title"><p class="wiki-eyebrow">Growing discoveries</p><h1>Plants</h1><p>Plant life ranges from single flowers and potted decor to hanging cave vines and full trees.</p></section>' + card_grid(PLANTS, "Plant", "plants"))
 
     rows = "".join(f'<tr><td>{recipe_group(recipe[:-1])}</td><td>{recipe_group(recipe[-1:])}</td></tr>' for recipe in RECIPES)
-    page("Crafting Recipes", "Current starter recipes for materials, tools, storage, building blocks, and light in Tiny Block.", "wiki/recipes/", f'<section class="wiki-title"><p class="wiki-eyebrow">Crafting</p><h1>Recipes</h1><p>Use mined blocks and physical reactions to unlock stronger tools and new building materials.</p></section><div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>Ingredients</th><th>Result</th></tr></thead><tbody>{rows}</tbody></table></div><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block crafting recipes and inventory" width="1600" height="900" loading="lazy"><figcaption>The in-game recipe catalog shows what can be made from discoveries in the current world.</figcaption></figure>')
+    page("Crafting Recipes", "Current starter recipes for materials, tools, storage, building blocks, and light in Tiny Block.", "wiki/recipes/", f'<section class="wiki-title"><p class="wiki-eyebrow">Crafting</p><h1>Recipes</h1><p>Use mined blocks and physical reactions to unlock stronger tools and new building materials.</p></section><div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>Ingredients</th><th>Result</th></tr></thead><tbody>{rows}</tbody></table></div><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block crafting recipes and inventory" width="1600" height="738" loading="lazy"><figcaption>The in-game recipe catalog shows what can be made from discoveries in the current world.</figcaption></figure>')
 
     guide = '''<section class="wiki-title"><p class="wiki-eyebrow">One Block starter guide</p><h1>How to grow your floating island</h1><p>Turn the first block into a safe, renewable base before exploring farther biomes.</p></section>
     <div class="guide-steps">
@@ -200,7 +200,7 @@ def render() -> None:
       <article><span>04</span><h2>Craft tools and storage</h2><p>Turn wood into planks, then make a pickaxe and chest. Better tools shorten mining time and protect your discoveries.</p></article>
       <article><span>05</span><h2>Follow new biomes</h2><p>Floating Islands introduce different terrain, plants, creatures, and recipes. Prepare for darkness, ice, lava, and aggressive night creatures.</p></article>
     </div>
-    <figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/01-one-block-skyblock.webp" alt="Starting a One Block Skyblock world in Tiny Block" width="1600" height="900"><figcaption>A new One Block world starts small and grows through mining, crafting, and discovery.</figcaption></figure>'''
+    <figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/01-one-block-skyblock.webp" alt="Starting a One Block Skyblock world in Tiny Block" width="1600" height="738"><figcaption>A new One Block world starts small and grows through mining, crafting, and discovery.</figcaption></figure>'''
     page("How to Grow a One Block Island", "A beginner guide to mining, crafting, expanding, and surviving your first One Block Skyblock island in Tiny Block.", "guides/how-to-grow-your-one-block-island/", guide, "Article")
 
 
