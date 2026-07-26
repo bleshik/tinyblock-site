@@ -1192,7 +1192,16 @@ html.ready .stage {
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem 0;
+  z-index: 3;
 }
+
+.wiki-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.wiki-header .language-menu nav { z-index: 5; }
 
 .wiki-brand {
   color: var(--foam);
@@ -1514,6 +1523,7 @@ html.ready .stage {
   .wiki-main,
   .wiki-foot { width: min(100% - 2rem, 1120px); }
   .wiki-main { padding-top: 1.5rem; }
+  .wiki-install { display: none; }
   .wiki-table th,
   .wiki-table td { padding: 0.8rem; }
   .wiki-recipe-item { min-width: 7.5rem; }
