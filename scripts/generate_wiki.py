@@ -14,11 +14,11 @@ BASE_URL = "https://tinyblock.nosuchgames.com"
 BIOMES = [
     ("Plains", "Open grassland with occasional trees.", "Grass, dirt, stone", "Meadow Bloom, Prairie Sprig, Oak, Weeping Tree", "Meadow Hopper, Forest Fox, Sky Mote", "plains.webp"),
     ("Forest", "A damp woodland rich in trees and small creatures.", "Grass, dirt, stone, wood", "Prairie Sprig, Meadow Bloom, Oak, Weeping Tree", "Forest Fox, Moss Crawler, Moss Slug", "forest.webp"),
-    ("Tundra", "A cold open land where water slowly freezes.", "Dirt, stone, ice", "Pine", "Snow Penguin, Sky Mote, Gloomwing", None),
+    ("Tundra", "A cold open land where water slowly freezes.", "Dirt, stone, ice", "Pine", "Snow Penguin, Sky Mote, Gloomwing", "tundra.webp"),
     ("Ice Fields", "A barren glacier of deep ice, frozen water, and exposed stone.", "Ice, stone, water", "—", "Snow Penguin, Sky Mote, Gloomwing", "ice-fields.webp"),
-    ("Desert", "Dry dunes over deep stone.", "Sand, stone", "—", "Sky Mote, Dusk Prowler", None),
+    ("Desert", "Dry dunes over deep stone.", "Sand, stone", "—", "Sky Mote, Dusk Prowler", "desert.webp"),
     ("Obsidian Wastes", "Weathered volcanic ground hiding obsidian, ancient formations, and lava pools.", "Cobblestone, stone, obsidian, lava", "—", "Ember Walker, Cinder Eel, Gloomwing", "obsidian.webp"),
-    ("Beach", "A warm sandy edge beside open water.", "Sand, stone, water", "Palm", "Pool Drifter, Sand Crab, Sky Mote", "beach.webp"),
+    ("Beach", "A warm sandy edge beside open water.", "Sand, stone, water", "Palm", "Pool Drifter, Sand Crab, Sky Mote", None),
     ("Riverbank", "Low sandy ground shaped by flowing water.", "Sand, stone, water", "—", "Pool Drifter, Sand Crab, Moss Slug", None),
     ("Cavern", "A dark underground habitat.", "Stone", "Cave Vines", "Cave Spider, Cave Skitter, Moss Crawler", None),
     ("Volcanic", "Hot rock pockets inhabited by ember creatures.", "Stone, obsidian, lava", "—", "Ember Walker, Cinder Eel", None),
@@ -166,7 +166,7 @@ def render() -> None:
 
     biome_cards = []
     for name, copy, terrain, plants, creatures, image in BIOMES:
-        media = f'<img src="/assets/wiki/biomes/{image}" alt="{esc(name)} floating island biome in Tiny Block" width="1600" height="738" loading="lazy">' if image else ""
+        media = f'<img src="/assets/wiki/biomes/{image}" alt="{esc(name)} biome in Tiny Block" width="1600" height="739" loading="lazy">' if image else ""
         biome_cards.append(f'<article class="wiki-entry wiki-entry-media">{media}<div><p class="wiki-label">Biome</p><h2>{esc(name)}</h2><p>{esc(copy)}</p><dl><dt>Terrain</dt><dd>{esc(terrain)}</dd><dt>Plants</dt><dd>{esc(plants)}</dd><dt>Creatures</dt><dd>{esc(creatures)}</dd></dl></div></article>')
     page("Biomes", "Discover the ten current Tiny Block biomes, their terrain, plants, creatures, fluids, and environmental character.", "wiki/biomes/", '<section class="wiki-title"><p class="wiki-eyebrow">World generation</p><h1>Biomes</h1><p>Floating Islands can lead from bright plains to glaciers, beaches, caverns, and volcanic ground.</p></section><div class="wiki-stack">' + "".join(biome_cards) + "</div>")
 
