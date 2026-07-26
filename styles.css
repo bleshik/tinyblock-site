@@ -1273,6 +1273,24 @@ html.ready .stage {
   text-transform: uppercase;
 }
 
+.wiki-infinite {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto 1.25rem;
+  padding: 1.5rem 7rem 1.5rem 1.6rem;
+  overflow: hidden;
+  color: var(--foam);
+  background: linear-gradient(135deg, #143047, #205b7d);
+  border: 3px solid rgba(255, 255, 255, 0.42);
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(12, 36, 58, 0.18);
+}
+
+.wiki-infinite .wiki-label { color: #8fdaff; }
+.wiki-infinite h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 400; }
+.wiki-infinite > p:last-of-type { max-width: 760px; margin: 0.55rem 0 0; color: rgba(244, 251, 255, 0.86); font-weight: 700; line-height: 1.55; }
+.wiki-infinite-mark { position: absolute; inset-inline-end: 1.6rem; top: 50%; color: var(--accent); font-family: var(--font-display); font-size: 5.5rem; line-height: 1; transform: translateY(-54%); opacity: 0.92; }
+
 .wiki-hero img,
 .wiki-wide-media img,
 .wiki-entry-media img {
@@ -1524,8 +1542,26 @@ html.ready .stage {
   .wiki-foot { width: min(100% - 2rem, 1120px); }
   .wiki-main { padding-top: 1.5rem; }
   .wiki-install { display: none; }
-  .wiki-table th,
-  .wiki-table td { padding: 0.8rem; }
-  .wiki-recipe-item { min-width: 7.5rem; }
+  .wiki-header-actions { min-width: 0; }
+  .wiki-header .language-menu summary { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wiki-nav { flex-wrap: wrap; justify-content: center; overflow-x: visible; }
+  .wiki-nav a { flex: 1 1 auto; text-align: center; }
+  .wiki-infinite { padding: 1.35rem 1.3rem 4.5rem; }
+  .wiki-infinite-mark { inset-inline-end: 1.25rem; top: auto; bottom: 0.3rem; font-size: 4.3rem; transform: none; }
+  .wiki-card-media > div:last-child { min-height: 0; }
+  .wiki-entity-art { height: 11rem; }
+  .wiki-entry dl { grid-template-columns: 1fr; gap: 0.1rem; }
+  .wiki-entry dt:not(:first-child) { margin-top: 0.55rem; }
+  .wiki-table-wrap { overflow: hidden; }
+  .wiki-table,
+  .wiki-table tbody,
+  .wiki-table tr,
+  .wiki-table td { display: block; width: 100%; }
+  .wiki-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .wiki-table tr { padding: 0.25rem 0; border-bottom: 1px solid rgba(20, 48, 71, 0.12); }
+  .wiki-table td { padding: 0.75rem 0.9rem; border: 0; }
+  .wiki-table td::before { content: attr(data-label); display: block; margin-bottom: 0.5rem; color: #17577f; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; }
+  .wiki-table td + td { background: rgba(74, 163, 216, 0.08); }
+  .wiki-recipe-item { flex: 1 1 6.5rem; min-width: 0; }
   .wiki-recipe-item img { width: 3.25rem; height: 3.25rem; flex-basis: 3.25rem; }
 }

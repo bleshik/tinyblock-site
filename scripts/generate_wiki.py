@@ -162,12 +162,16 @@ def recipe_group(items: tuple, locale: str, catalog: dict) -> str:
     return '<div class="wiki-recipe-group">' + '<span class="wiki-recipe-plus" aria-hidden="true">+</span>'.join(recipe_item(item, locale, catalog) for item in items) + '</div>'
 
 
+def infinite_banner(text: dict[str, str]) -> str:
+    return f'<aside class="wiki-infinite"><p class="wiki-label">{esc(text["infinite_kicker"])}</p><h2>{esc(text["infinite_title"])}</h2><p>{esc(text["infinite_copy"])}</p><div class="wiki-infinite-mark" aria-hidden="true">∞</div></aside>'
+
+
 def render() -> None:
     locales, catalog = load_catalog()
     for locale in locales:
         code, text = locale["code"], TEXT[locale["code"]]
         prefix = "" if not locale["output"] else f'/{locale["output"]}'
-        overview = f'<section class="wiki-hero"><p class="wiki-eyebrow">{esc(text["official"])}</p><h1>Tiny Block {esc(text["wiki"])}</h1><p>{esc(text["overview"])}</p><img src="/assets/wiki/gameplay/05-random-world.webp" alt="Tiny Block" width="1600" height="738"></section>'
+        overview = f'<section class="wiki-hero"><p class="wiki-eyebrow">{esc(text["official"])}</p><h1>Tiny Block {esc(text["wiki"])}</h1><p>{esc(text["overview"])}</p><img src="/assets/wiki/gameplay/05-random-world.webp" alt="Tiny Block" width="1600" height="738"></section>{infinite_banner(text)}'
         overview += '<div class="wiki-grid">' + "".join(f'<a class="wiki-card wiki-card-link" href="{prefix}/wiki/{slug}/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text[key])}</h2><p>{esc(text["catalog"])}</p></a>' for key, slug in (("biomes","biomes"),("materials","materials"),("creatures","creatures"),("plants","plants"),("recipes","recipes"))) + '</div>'
         if code == "en":
             overview = overview[:-6] + '<a class="wiki-card wiki-card-link" href="/guides/how-to-grow-your-one-block-island/"><p class="wiki-label">Guide</p><h2>Starter guide</h2><p>Grow a safe and renewable One Block island from the first discovery.</p></a></div>'
@@ -180,12 +184,12 @@ def render() -> None:
             description = f'<p>{esc(copy)}</p>' if code == "en" else ""
             biome_cards.append(f'<article class="wiki-entry wiki-entry-media"><img src="/assets/wiki/biomes/{image}" alt="{esc(localized_name)} — Tiny Block" width="{image_width}" height="739" loading="lazy"><div><p class="wiki-label">{esc(text["biome"])}</p><h2>{esc(localized_name)}</h2>{description}<dl><dt>{esc(text["terrain"])}</dt><dd>{esc(localize_list(terrain, code, catalog))}</dd><dt>{esc(text["plants"])}</dt><dd>{esc(localize_list(plants, code, catalog))}</dd><dt>{esc(text["creatures"])}</dt><dd>{esc(localize_list(creatures, code, catalog))}</dd></dl></div></article>')
         page(text["biomes"], text["biomes_intro"], "wiki/biomes/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["world"])}</p><h1>{esc(text["biomes"])}</h1><p>{esc(text["biomes_intro"])}</p></section><div class="wiki-stack">{"".join(biome_cards)}</div>', locale, locales)
-        page(text["materials"], text["materials_intro"], "wiki/materials/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["mining"])}</p><h1>{esc(text["materials"])}</h1><p>{esc(text["materials_intro"])}</p></section>{card_grid(MATERIALS, text["material"], "materials", code, catalog)}', locale, locales)
+        page(text["materials"], text["materials_intro"], "wiki/materials/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["mining"])}</p><h1>{esc(text["materials"])}</h1><p>{esc(text["materials_intro"])}</p></section>{infinite_banner(text)}{card_grid(MATERIALS, text["material"], "materials", code, catalog)}', locale, locales)
         creature_items = [(name, f'{copy} Habitat: {habitat}.', slug) for name, copy, habitat, slug in CREATURES]
-        page(text["creatures"], text["creatures_intro"], "wiki/creatures/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["living"])}</p><h1>{esc(text["creatures"])}</h1><p>{esc(text["creatures_intro"])}</p></section>{card_grid(creature_items, text["creature"], "creatures", code, catalog)}', locale, locales)
-        page(text["plants"], text["plants_intro"], "wiki/plants/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["growing"])}</p><h1>{esc(text["plants"])}</h1><p>{esc(text["plants_intro"])}</p></section>{card_grid(PLANTS, text["plant"], "plants", code, catalog)}', locale, locales)
-        rows = "".join(f'<tr><td>{recipe_group(recipe[:-1], code, catalog)}</td><td>{recipe_group(recipe[-1:], code, catalog)}</td></tr>' for recipe in RECIPES)
-        recipes_body = f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["crafting"])}</p><h1>{esc(text["recipes"])}</h1><p>{esc(text["recipes_intro"])}</p></section><div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block" width="1600" height="739" loading="lazy"><figcaption>{esc(text["recipe_caption"])}</figcaption></figure>'
+        page(text["creatures"], text["creatures_intro"], "wiki/creatures/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["living"])}</p><h1>{esc(text["creatures"])}</h1><p>{esc(text["creatures_intro"])}</p></section>{infinite_banner(text)}{card_grid(creature_items, text["creature"], "creatures", code, catalog)}', locale, locales)
+        page(text["plants"], text["plants_intro"], "wiki/plants/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["growing"])}</p><h1>{esc(text["plants"])}</h1><p>{esc(text["plants_intro"])}</p></section>{infinite_banner(text)}{card_grid(PLANTS, text["plant"], "plants", code, catalog)}', locale, locales)
+        rows = "".join(f'<tr><td data-label="{esc(text["ingredients"])}">{recipe_group(recipe[:-1], code, catalog)}</td><td data-label="{esc(text["result"])}">{recipe_group(recipe[-1:], code, catalog)}</td></tr>' for recipe in RECIPES)
+        recipes_body = f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["crafting"])}</p><h1>{esc(text["recipes"])}</h1><p>{esc(text["recipes_intro"])}</p></section>{infinite_banner(text)}<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block" width="1600" height="739" loading="lazy"><figcaption>{esc(text["recipe_caption"])}</figcaption></figure>'
         page(text["recipes"], text["recipes_intro"], "wiki/recipes/", recipes_body, locale, locales)
 
 
