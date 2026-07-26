@@ -1307,13 +1307,22 @@ html.ready .stage {
   overflow: hidden;
 }
 
-.wiki-card-media > div:last-child { padding: 1.25rem 1.4rem 1.4rem; }
+.wiki-card-media > div:last-child {
+  position: relative;
+  z-index: 2;
+  min-height: 13.5rem;
+  padding: 1.25rem 1.4rem 1.4rem;
+  background: rgba(244, 251, 255, 0.98);
+}
 
 .wiki-entity-art {
+  position: relative;
   display: grid;
   place-items: center;
-  height: 12rem;
-  padding: 0.8rem;
+  box-sizing: border-box;
+  height: 14rem;
+  padding: 1.5rem;
+  overflow: hidden;
   background:
     radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.78), transparent 48%),
     linear-gradient(180deg, rgba(91, 185, 227, 0.42), rgba(255, 213, 103, 0.2));
@@ -1321,8 +1330,11 @@ html.ready .stage {
 }
 
 .wiki-entity-art img {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  inset: 1.25rem;
+  width: calc(100% - 2.5rem);
+  height: calc(100% - 2.5rem);
+  max-width: none;
   object-fit: contain;
   image-rendering: pixelated;
   filter: drop-shadow(0 12px 12px rgba(12, 36, 58, 0.16));
