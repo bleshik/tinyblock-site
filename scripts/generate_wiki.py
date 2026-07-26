@@ -175,7 +175,7 @@ def render() -> None:
     for locale in locales:
         code, text = locale["code"], TEXT[locale["code"]]
         prefix = "" if not locale["output"] else f'/{locale["output"]}'
-        overview = f'<section class="wiki-hero"><p class="wiki-eyebrow">{esc(text["official"])}</p><h1>Tiny Block {esc(text["wiki"])}</h1><p>{esc(text["overview"])}</p><img src="/assets/wiki/gameplay/05-random-world.webp" alt="Tiny Block" width="1600" height="738"></section>{infinite_banner(text)}'
+        overview = f'<section class="wiki-hero"><p class="wiki-eyebrow">{esc(text["official"])}</p><h1>Tiny Block {esc(text["wiki"])}</h1><p>{esc(text["overview"])}</p><img src="/assets/wiki/gameplay/05-random-world.webp?v=20260726-color" alt="Tiny Block" width="1600" height="900"></section>{infinite_banner(text)}'
         overview += '<div class="wiki-grid">' + "".join(f'<a class="wiki-card wiki-card-link" href="{prefix}/wiki/{slug}/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text[key])}</h2><p>{esc(text["catalog"])}</p></a>' for key, slug in (("biomes","biomes"),("materials","materials"),("creatures","creatures"),("plants","plants"),("recipes","recipes"))) + '</div>'
         if code == "en":
             overview = overview[:-6] + '<a class="wiki-card wiki-card-link" href="/guides/how-to-grow-your-one-block-island/"><p class="wiki-label">Guide</p><h2>Starter guide</h2><p>Grow a safe and renewable One Block island from the first discovery.</p></a></div>'
