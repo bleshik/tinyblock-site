@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://tinyblock.nosuchgames.com/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/de/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/es/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/fr/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/it/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/pt-br/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/ar/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/ja/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/ko/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/ru/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/zh-hans/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://tinyblock.nosuchgames.com/zh-hant/</loc><lastmod>2026-07-25</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/de/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/es/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/fr/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/it/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/pt-br/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/ar/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/ja/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/ko/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/ru/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/zh-hans/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/zh-hant/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/wiki/</loc><lastmod>2026-07-26</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/wiki/biomes/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/wiki/materials/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/wiki/creatures/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/wiki/plants/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/wiki/recipes/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/guides/how-to-grow-your-one-block-island/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/creators/</loc><lastmod>2026-07-26</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://tinyblock.nosuchgames.com/privacy/</loc><lastmod>2026-07-26</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>

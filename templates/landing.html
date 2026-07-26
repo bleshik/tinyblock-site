@@ -22,6 +22,7 @@
   <title>$seo_title</title>
   <meta name="description" content="$meta_description">
   <meta name="theme-color" content="#4aa3d8">
+  <meta name="apple-itunes-app" content="app-id=6793160455, app-argument=https://tinyblock.nosuchgames.com/">
   <link rel="icon" href="/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="canonical" href="$canonical_url">
@@ -57,12 +58,15 @@ $og_alternates
 
   <header class="site-nav">
     <a class="site-nav-brand" href="$home_path" aria-label="Tiny Block">Tiny Block</a>
-    <details class="language-menu">
-      <summary aria-label="$language_menu_label">$current_language</summary>
-      <nav aria-label="$language_menu_label">
+    <div class="site-nav-actions">
+      <a class="site-nav-link" href="/wiki/">Wiki</a>
+      <details class="language-menu">
+        <summary aria-label="$language_menu_label">$current_language</summary>
+        <nav aria-label="$language_menu_label">
 $language_links
-      </nav>
-    </details>
+        </nav>
+      </details>
+    </div>
   </header>
 
   <main>
@@ -73,8 +77,8 @@ $language_links
         <p class="lede">$lede</p>
         <p class="platforms">$platforms</p>
         <div class="cta">
-          <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="$code">$app_store_label</a>
-          <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="$code">$google_play_label</a>
+          <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_seo&amp;mt=8" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="$code">$app_store_label</a>
+          <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Dorganic%26utm_campaign%3Dseo_landing" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="$code">$google_play_label</a>
         </div>
       </div>
 
@@ -115,6 +119,7 @@ $faq_items
   </main>
 
   <footer class="site-foot localized-foot">
+    <a href="/wiki/">Wiki</a>
     <a href="/privacy/">$privacy_label</a>
     <a href="/creators/" data-analytics-event="creator_program_click" data-analytics-program="tinyblock">$creators_label</a>
     <a href="https://nosuchgames.com" rel="noopener">No Such Games</a>

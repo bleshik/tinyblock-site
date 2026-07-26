@@ -14,6 +14,17 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE_URL = "https://tinyblock.nosuchgames.com"
 APP_STORE_URL = "https://apps.apple.com/app/id6793160455"
 GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock"
+STATIC_ROUTES = [
+    ("wiki/", "weekly", "0.8"),
+    ("wiki/biomes/", "monthly", "0.7"),
+    ("wiki/materials/", "monthly", "0.7"),
+    ("wiki/creatures/", "monthly", "0.7"),
+    ("wiki/plants/", "monthly", "0.7"),
+    ("wiki/recipes/", "monthly", "0.7"),
+    ("guides/how-to-grow-your-one-block-island/", "monthly", "0.7"),
+    ("creators/", "monthly", "0.4"),
+    ("privacy/", "yearly", "0.2"),
+]
 
 
 def route_url(locale: dict) -> str:
@@ -55,7 +66,8 @@ def render() -> None:
             "@context": "https://schema.org",
             "@graph": [
                 {
-                    "@type": "VideoGame",
+                    "@type": ["VideoGame", "MobileApplication"],
+                    "@id": f"{BASE_URL}/#game",
                     "name": "Tiny Block",
                     "alternateName": locale["h1"],
                     "url": canonical,
@@ -105,6 +117,10 @@ def render() -> None:
     urls = "\n".join(
         f"  <url><loc>{route_url(locale)}</loc><lastmod>{lastmod}</lastmod><changefreq>weekly</changefreq><priority>{'1.0' if not locale['output'] else '0.8'}</priority></url>"
         for locale in locales
+    )
+    urls += "\n" + "\n".join(
+        f"  <url><loc>{BASE_URL}/{route}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
+        for route, changefreq, priority in STATIC_ROUTES
     )
     sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")

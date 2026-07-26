@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["NKJ5D4DW7D.com.nosuchgames.tinyblock"],
+        "components": [
+          {
+            "/": "/download/*",
+            "comment": "Tiny Block install and campaign links"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <meta name="apple-itunes-app" content="app-id=6793160455, app-argument=https://tinyblock.nosuchgames.com/download/">
+  <title>Get Tiny Block</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="download-page">
+  <main class="download-card">
+    <img src="/favicon.png" alt="Tiny Block app icon" width="112" height="112">
+    <h1>Get Tiny Block</h1>
+    <p>Start with one block and grow an endless Skyblock world.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_download&amp;mt=8">App Store</a>
+      <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Ddownload_page%26utm_campaign%3Dsmart_link">Google Play</a>
+    </div>
+    <a class="download-back" href="/">Back to Tiny Block</a>
+  </main>
+  <script>
+    (function () {
+      var ua = navigator.userAgent || "";
+      var target = /Android/i.test(ua)
+        ? "https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&referrer=utm_source%3Dtinyblock_site%26utm_medium%3Dsmart_link%26utm_campaign%3Ddownload"
+        : (/iPhone|iPad|iPod/i.test(ua) ? "https://apps.apple.com/app/id6793160455?ct=website_smart_link&mt=8" : "");
+      if (target) window.setTimeout(function () { window.location.replace(target); }, 650);
+    }());
+  </script>
+</body>
+</html>
