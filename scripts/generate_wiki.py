@@ -101,6 +101,7 @@ def esc(value: str) -> str:
 
 def page(title: str, description: str, route: str, body: str, kind: str = "CollectionPage") -> None:
     canonical = f"{BASE_URL}/{route}"
+    document_title = "Tiny Block Wiki – Official Game Guide" if route == "wiki/" else f"{title} | Tiny Block Wiki"
     breadcrumbs = [
         {"@type": "ListItem", "position": 1, "name": "Tiny Block", "item": f"{BASE_URL}/"},
         {"@type": "ListItem", "position": 2, "name": "Wiki", "item": f"{BASE_URL}/wiki/"},
@@ -120,13 +121,13 @@ def page(title: str, description: str, route: str, body: str, kind: str = "Colle
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{esc(title)} | Tiny Block Wiki</title>
+  <title>{esc(document_title)}</title>
   <meta name="description" content="{esc(description)}">
   <meta name="theme-color" content="#4aa3d8">
   <meta name="apple-itunes-app" content="app-id=6793160455, app-argument=https://tinyblock.nosuchgames.com/download/">
   <link rel="canonical" href="{canonical}">
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta property="og:title" content="{esc(title)} | Tiny Block Wiki">
+  <meta property="og:title" content="{esc(document_title)}">
   <meta property="og:description" content="{esc(description)}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{canonical}">
@@ -157,7 +158,10 @@ def card_grid(items: list[tuple[str, str]], label: str) -> str:
 
 def render() -> None:
     overview = '''<section class="wiki-hero"><p class="wiki-eyebrow">Official game guide</p><h1>Tiny Block Wiki</h1><p>Explore the biomes, materials, recipes, plants, and creatures already living inside Tiny Block.</p><img src="/assets/wiki/gameplay/05-random-world.webp" alt="A generated floating island in Tiny Block" width="1600" height="900"></section>'''
-    overview += card_grid([(label, "Open the current in-game catalog and learn where each discovery fits.") for label, _ in NAV[1:]], "Guide")
+    overview += '<div class="wiki-grid">' + "".join(
+        f'<a class="wiki-card wiki-card-link" href="{href}"><p class="wiki-label">Guide</p><h2>{esc(label)}</h2><p>Open the current in-game catalog and learn where each discovery fits.</p></a>'
+        for label, href in NAV[1:]
+    ) + "</div>"
     page("Tiny Block Wiki", "The official guide to Tiny Block biomes, materials, crafting recipes, plants, creatures, and One Block progression.", "wiki/", overview)
 
     biome_cards = []

@@ -1302,6 +1302,17 @@ html.ready .stage {
   border-radius: 22px;
 }
 
+.wiki-card-link {
+  color: inherit;
+  text-decoration: none;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.wiki-card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px rgba(12, 36, 58, 0.2);
+}
+
 .wiki-card h2,
 .wiki-entry h2,
 .guide-steps h2 {
