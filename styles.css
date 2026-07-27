@@ -1548,6 +1548,11 @@ html.ready .stage {
   gap: 1rem;
 }
 
+.comparison-duo,
+.comparison-pair-images {
+  align-items: start;
+}
+
 .comparison-facts {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
@@ -1593,7 +1598,9 @@ html.ready .stage {
 
 .comparison-duo figure > img,
 .comparison-pair figure > img {
+  display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
