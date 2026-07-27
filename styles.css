@@ -1519,6 +1519,10 @@ html.ready .stage {
   margin-top: 1.5rem;
 }
 
+.comparison-duo + .wiki-infinite {
+  margin-top: 1.5rem;
+}
+
 .comparison-heading {
   max-width: 860px;
   margin: 0 auto 1.25rem;
