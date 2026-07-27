@@ -163,7 +163,7 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
 {alternates}
   <link rel="icon" href="/favicon.png" type="image/png">
   <meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:type" content="article"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE_URL}/og-seo.png"><meta property="og:locale" content="{esc(locale["og_locale"])}"><meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-6">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-7">
   <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
 <body class="wiki-page"><header class="wiki-header"><a class="wiki-brand" href="{home}">Tiny Block</a><div class="wiki-header-actions"><a class="btn btn-primary wiki-install" href="/download/">{esc(text["play"])}</a><details class="language-menu"><summary aria-label="{esc(text["language"])}">{esc(locale["label"])}</summary><nav aria-label="{esc(text["language"])}">{language_links}</nav></details></div></header>
@@ -234,6 +234,15 @@ def comparison_duo(left_image: str, left_alt: str, left_caption: str, left_url: 
     return f'<div class="comparison-duo"><figure><img src="{left_image}" alt="{esc(left_alt)}" width="1200" height="676" loading="lazy"><figcaption><a href="{left_url}" rel="nofollow">{esc(left_caption)}</a></figcaption></figure><figure><img src="{right_image}" alt="{esc(right_alt)}" width="1600" height="900" loading="lazy"><figcaption>{esc(right_caption)}</figcaption></figure></div>'
 
 
+def one_block_comparison(locale_code: str) -> str:
+    copy = COMPARE[locale_code]
+    rows = "".join(
+        f'<tr><th scope="row">{esc(title)}</th><td data-label="Minecraft One Block">{esc(copy["one_minecraft"][index])}</td><td data-label="Tiny Block">{esc(tiny_body)}</td></tr>'
+        for index, (title, tiny_body) in enumerate(copy["one_facts"])
+    )
+    return f'<div class="comparison-table-wrap"><table class="comparison-table"><thead><tr><th scope="col"></th><th scope="col">Minecraft One Block</th><th scope="col">Tiny Block</th></tr></thead><tbody>{rows}</tbody></table></div>'
+
+
 def comparison_cta(prefix: str, text: dict[str, str], locale: dict) -> str:
     return f'<div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/"><p class="wiki-label">{esc(text["guide"])}</p><h2>Tiny Block Wiki</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
 
@@ -253,7 +262,17 @@ def minecraft_page_body(kind: str, keyword: str, locale: dict, text: dict[str, s
     if kind == "one-block":
         copy = COMPARE[locale["code"]]
         description = f'{keyword}. {copy["one_intro"]}'
-        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1 class="comparison-title">{esc(keyword)} vs Tiny Block</h1><p>{esc(locale["lede"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/00-one-block-start.webp?v=20260727-one-block" alt="Tiny Block One Block starting world" width="2560" height="1280"><figcaption>{esc(locale["about_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}{comparison_facts(locale["code"], "one_intro", "one_facts")}{comparison_cta(prefix, text, locale)}'
+        media = comparison_duo(
+            "/assets/wiki/minecraft/one-block.jpg",
+            "Minecraft Marketplace 1 Block Skyblock by Fall Studios",
+            f'1 Block Skyblock by Fall Studios · {copy["source"]}',
+            "https://www.minecraft.net/en-us/article/marketplace-content-april-2026",
+            "/assets/wiki/gameplay/00-one-block-start.webp?v=20260727-one-block",
+            "Tiny Block One Block starting world",
+            copy["tiny"],
+        )
+        comparison = f'<section class="comparison-section"><div class="comparison-heading"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h2>{esc(copy["title"])}</h2><p>{esc(copy["one_intro"])}</p></div>{one_block_comparison(locale["code"])}</section>'
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1 class="comparison-title">{esc(keyword)} vs Tiny Block</h1><p>{esc(locale["lede"])}</p></section>{media}{minecraft_disclaimer(locale["code"])}{comparison}{comparison_cta(prefix, text, locale)}'
         return description, body
 
     if kind == "biomes":
