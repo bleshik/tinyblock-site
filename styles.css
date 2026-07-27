@@ -1329,6 +1329,10 @@ html.ready .stage {
 .wiki-main > .guide-steps,
 .wiki-main > .wiki-table-wrap { margin-top: 1.25rem; }
 
+.wiki-main > .wiki-grid + .wiki-infinite {
+  margin-top: 1.5rem;
+}
+
 .wiki-card,
 .wiki-entry,
 .wiki-table-wrap,
