@@ -8,6 +8,7 @@ import html
 import json
 from pathlib import Path
 
+from minecraft_compare_i18n import COMPARE
 from wiki_i18n import BIOME_VARIETY, TERMS, TEXT
 
 
@@ -72,6 +73,15 @@ MINECRAFT_SEO_PAGES = [
 ]
 
 MINECRAFT_DISCLAIMER = "NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT."
+
+MINECRAFT_BIOME_PAIRS = [
+    ("Plains", "plains.jpg", "plains", "plains.webp", "https://www.minecraft.net/en-us/article/around-block--plains"),
+    ("Dark Forest", "forest.jpg", "forest", "forest.webp", "https://www.minecraft.net/en-us/article/around-block--dark-forest"),
+    ("Snowy Taiga", "snow.jpg", "tundra", "tundra.webp", "https://www.minecraft.net/en-us/article/snowy-taiga"),
+    ("Desert", "desert.jpg", "desert", "desert.webp", "https://www.minecraft.net/en-us/article/desert"),
+    ("Dripstone Caves", "caves.jpg", "cavern", "cavern.webp", "https://www.minecraft.net/en-us/article/around-block--dripstone-caves"),
+    ("Nether Wastes", "nether.jpg", "volcanic", "volcanic.webp", "https://www.minecraft.net/en-us/article/around-block--nether-wastes"),
+]
 
 MINECRAFT_SEO_COMMON = {
     "en": ("Search guides and comparisons", "Independent comparison", "Tiny Block is an independent game"),
@@ -153,7 +163,7 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
 {alternates}
   <link rel="icon" href="/favicon.png" type="image/png">
   <meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:type" content="article"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE_URL}/og-seo.png"><meta property="og:locale" content="{esc(locale["og_locale"])}"><meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-2">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-3">
   <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
 <body class="wiki-page"><header class="wiki-header"><a class="wiki-brand" href="{home}">Tiny Block</a><div class="wiki-header-actions"><a class="btn btn-primary wiki-install" href="/download/">{esc(text["play"])}</a><details class="language-menu"><summary aria-label="{esc(text["language"])}">{esc(locale["label"])}</summary><nav aria-label="{esc(text["language"])}">{language_links}</nav></details></div></header>
@@ -214,6 +224,20 @@ def minecraft_disclaimer(locale_code: str) -> str:
     return f'<aside class="wiki-infinite"><p class="wiki-label">{esc(independent)}</p><h2>{esc(own_game)}</h2><p>{esc(MINECRAFT_DISCLAIMER)}</p><div class="wiki-infinite-mark" aria-hidden="true">≠</div></aside>'
 
 
+def comparison_facts(locale_code: str, intro_key: str, facts_key: str) -> str:
+    copy = COMPARE[locale_code]
+    facts = "".join(f'<article><h3>{esc(title)}</h3><p>{esc(body)}</p></article>' for title, body in copy[facts_key])
+    return f'<section class="comparison-section"><div class="comparison-heading"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h2>{esc(copy["title"])}</h2><p>{esc(copy[intro_key])}</p></div><div class="comparison-facts">{facts}</div></section>'
+
+
+def comparison_duo(left_image: str, left_alt: str, left_caption: str, left_url: str, right_image: str, right_alt: str, right_caption: str) -> str:
+    return f'<div class="comparison-duo"><figure><img src="{left_image}" alt="{esc(left_alt)}" width="1200" height="676" loading="lazy"><figcaption><a href="{left_url}" rel="nofollow">{esc(left_caption)}</a></figcaption></figure><figure><img src="{right_image}" alt="{esc(right_alt)}" width="1600" height="900" loading="lazy"><figcaption>{esc(right_caption)}</figcaption></figure></div>'
+
+
+def comparison_cta(prefix: str, text: dict[str, str], locale: dict) -> str:
+    return f'<div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/"><p class="wiki-label">{esc(text["guide"])}</p><h2>Tiny Block Wiki</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+
+
 def minecraft_page_title(kind: str, keyword: str, text: dict[str, str]) -> str:
     if kind == "one-block":
         return f"{keyword} vs Tiny Block"
@@ -227,32 +251,36 @@ def minecraft_page_title(kind: str, keyword: str, text: dict[str, str]) -> str:
 def minecraft_page_body(kind: str, keyword: str, locale: dict, text: dict[str, str], catalog: dict) -> tuple[str, str]:
     prefix = "" if not locale["output"] else f'/{locale["output"]}'
     if kind == "one-block":
-        description = f'{keyword} compared with Tiny Block. {locale["lede"]}'
-        steps = "".join(
-            f'<article><span>{index:02d}</span><h2>{esc(feature["title"])}</h2><p>{esc(feature["copy"])}</p></article>'
-            for index, feature in enumerate(locale["features"], 1)
-        )
-        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)} vs Tiny Block</h1><p>{esc(locale["lede"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/00-one-block-start.webp?v=20260727-one-block" alt="Tiny Block One Block starting world" width="2560" height="1280"><figcaption>{esc(locale["about_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}<section class="guide-steps">{steps}</section><div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/"><p class="wiki-label">{esc(text["guide"])}</p><h2>Tiny Block Wiki</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+        copy = COMPARE[locale["code"]]
+        description = f'{keyword}. {copy["one_intro"]}'
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1 class="comparison-title">{esc(keyword)} vs Tiny Block</h1><p>{esc(locale["lede"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/00-one-block-start.webp?v=20260727-one-block" alt="Tiny Block One Block starting world" width="2560" height="1280"><figcaption>{esc(locale["about_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}{comparison_facts(locale["code"], "one_intro", "one_facts")}{comparison_cta(prefix, text, locale)}'
         return description, body
 
     if kind == "biomes":
-        description = f'{keyword} compared with Tiny Block biomes. {text["biomes_intro"]}'
-        biome_cards = "".join(
-            f'<article class="wiki-card"><p class="wiki-label">{esc(text["biome"])}</p><h2>{esc(TERMS[locale["code"]][slug])}</h2><p>{esc(text["terrain"])}: {esc(localize_list(terrain, locale["code"], catalog))}</p></article>'
-            for _name, _copy, terrain, _plants, _creatures, _image, slug in BIOMES
+        copy = COMPARE[locale["code"]]
+        description = f'{keyword}. {copy["biome_intro"]}'
+        biome_terrain = {slug: terrain for _name, _description, terrain, _plants, _creatures, _image, slug in BIOMES}
+        pairs = "".join(
+            f'<article class="comparison-pair"><div class="comparison-pair-images"><figure><img src="/assets/wiki/minecraft/{mc_image}" alt="Minecraft {esc(mc_name)} biome" width="1170" height="500" loading="lazy"><figcaption><a href="{source}" rel="nofollow">Minecraft: {esc(mc_name)} · {esc(copy["source"])}</a></figcaption></figure><figure><img src="/assets/wiki/biomes/{tiny_image}?v=20260727-game" alt="Tiny Block {esc(TERMS[locale["code"]][tiny_slug])} biome" width="2560" height="1280" loading="lazy"><figcaption>Tiny Block: {esc(TERMS[locale["code"]][tiny_slug])}</figcaption></figure></div><h2>{esc(mc_name)} ↔ {esc(TERMS[locale["code"]][tiny_slug])}</h2><p>{esc(copy["biome_pair"])}</p><p><strong>{esc(text["terrain"])}:</strong> {esc(localize_list(biome_terrain[tiny_slug], locale["code"], catalog))}</p></article>'
+            for mc_name, mc_image, tiny_slug, tiny_image, source in MINECRAFT_BIOME_PAIRS
         )
-        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)} vs Tiny Block {esc(text["biomes"])}</h1><p>{esc(text["biomes_intro"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/05-random-world.webp?v=20260726-color" alt="Tiny Block biomes" width="1600" height="900"><figcaption>{esc(text["infinite_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}<div class="wiki-grid">{biome_cards}</div><div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/biomes/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["biomes"])}</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1 class="comparison-title">{esc(keyword)} vs Tiny Block {esc(text["biomes"])}</h1><p>{esc(copy["biome_intro"])}</p></section>{minecraft_disclaimer(locale["code"])}<section class="comparison-section"><div class="comparison-heading"><h2>{esc(copy["title"])}</h2><p>{esc(copy["biome_intro"])}</p></div><div class="comparison-pairs">{pairs}</div></section>{comparison_cta(prefix, text, locale)}'
         return description, body
 
     if kind == "mobs":
-        description = f'{keyword} compared with original Tiny Block creatures. {text["creatures_intro"]}'
-        creature_items = [(name, f'{copy} Habitat: {habitat}.', slug) for name, copy, habitat, slug in CREATURES]
-        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)}: Tiny Block {esc(text["creatures"])}</h1><p>{esc(text["creatures_intro"])}</p></section>{minecraft_disclaimer(locale["code"])}{card_grid(creature_items, text["creature"], "creatures", locale["code"], catalog)}<div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/creatures/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["creatures"])}</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+        copy = COMPARE[locale["code"]]
+        description = f'{keyword}. {copy["mobs_intro"]}'
+        collage = "".join(f'<img src="/assets/wiki/entities/creatures/{slug}.webp" alt="{esc(entity(catalog, locale["code"], slug, name))}" width="512" height="512" loading="lazy">' for name, _creature_copy, _habitat, slug in CREATURES[:6])
+        media = f'<div class="comparison-duo"><figure><img src="/assets/wiki/minecraft/mobs.jpg" alt="Minecraft hostile and passive mobs" width="1200" height="676" loading="lazy"><figcaption><a href="https://www.minecraft.net/en-us/article/minecraft-mobs" rel="nofollow">{esc(copy["source"])}</a></figcaption></figure><figure class="comparison-entity-figure"><div class="comparison-entity-collage">{collage}</div><figcaption>{esc(copy["tiny"])}</figcaption></figure></div>'
+        examples = [(name, f'{creature_copy} Habitat: {habitat}.', slug) for name, creature_copy, habitat, slug in CREATURES[:6]]
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1 class="comparison-title">{esc(keyword)}: Tiny Block {esc(text["creatures"])}</h1><p>{esc(copy["mobs_intro"])}</p></section>{minecraft_disclaimer(locale["code"])}{media}{comparison_facts(locale["code"], "mobs_intro", "mobs_facts")}{card_grid(examples, text["creature"], "creatures", locale["code"], catalog)}{comparison_cta(prefix, text, locale)}'
         return description, body
 
-    description = f'{keyword} compared with Tiny Block discovery combinations. {text["recipes_intro"]}'
-    rows = "".join(f'<tr><td data-label="{esc(text["ingredients"])}">{recipe_group(recipe[:-1], locale["code"], catalog)}</td><td data-label="{esc(text["result"])}">{recipe_group(recipe[-1:], locale["code"], catalog)}</td></tr>' for recipe in RECIPES)
-    body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)} vs Tiny Block {esc(text["recipes"])}</h1><p>{esc(text["recipes_intro"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block crafting recipes" width="1600" height="739"><figcaption>{esc(text["infinite_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div><div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/recipes/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["recipes"])}</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+    copy = COMPARE[locale["code"]]
+    description = f'{keyword}. {copy["craft_intro"]}'
+    media = comparison_duo("/assets/wiki/minecraft/crafting.jpg", "Minecraft crafting recipe book", copy["source"], "https://www.minecraft.net/en-us/article/how-craft", "/assets/wiki/gameplay/06-recipes-inventory.webp", "Tiny Block recipes catalog", copy["tiny"])
+    rows = "".join(f'<tr><td data-label="{esc(text["ingredients"])}">{recipe_group(recipe[:-1], locale["code"], catalog)}</td><td data-label="{esc(text["result"])}">{recipe_group(recipe[-1:], locale["code"], catalog)}</td></tr>' for recipe in RECIPES[:6])
+    body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1 class="comparison-title">{esc(keyword)} vs Tiny Block {esc(text["recipes"])}</h1><p>{esc(copy["craft_intro"])}</p></section>{minecraft_disclaimer(locale["code"])}{media}{comparison_facts(locale["code"], "craft_intro", "craft_facts")}<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div>{comparison_cta(prefix, text, locale)}'
     return description, body
 
 
