@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M4R6BQWQX6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      region: ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU", "MT", "NL", "NO", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "GB", "CH"]
+    });
+    gtag("js", new Date());
+    gtag("config", "G-M4R6BQWQX6");
+  </script>
+  <script defer src="/assets/analytics.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,follow">
@@ -15,8 +31,8 @@
     <h1>Get Tiny Block</h1>
     <p>Start with one block and grow an endless Skyblock world.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_download&amp;mt=8">App Store</a>
-      <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Ddownload_page%26utm_campaign%3Dsmart_link">Google Play</a>
+      <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_download&amp;mt=8" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="en" data-analytics-position="download_page">App Store</a>
+      <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Ddownload_page%26utm_campaign%3Dsmart_link" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="en" data-analytics-position="download_page">Google Play</a>
     </div>
     <a class="download-back" href="/">Back to Tiny Block</a>
   </main>
@@ -26,7 +42,28 @@
       var target = /Android/i.test(ua)
         ? "https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&referrer=utm_source%3Dtinyblock_site%26utm_medium%3Dsmart_link%26utm_campaign%3Ddownload"
         : (/iPhone|iPad|iPod/i.test(ua) ? "https://apps.apple.com/app/id6793160455?ct=website_smart_link&mt=8" : "");
-      if (target) window.setTimeout(function () { window.location.replace(target); }, 650);
+      if (target) {
+        var redirected = false;
+        var redirect = function () {
+          if (redirected) return;
+          redirected = true;
+          window.location.replace(target);
+        };
+        var store = /Android/i.test(ua) ? "google_play" : "app_store";
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "store_click", {
+            store: store,
+            language: "en",
+            cta_position: "smart_redirect",
+            link_url: target,
+            page_path: window.location.pathname,
+            transport_type: "beacon",
+            event_callback: redirect,
+            event_timeout: 700
+          });
+        }
+        window.setTimeout(redirect, 800);
+      }
     }());
   </script>
 </body>
