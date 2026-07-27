@@ -183,9 +183,11 @@ def render() -> None:
 
         biome_cards = []
         for name, copy, terrain, plants, creatures, image, slug in BIOMES:
+            image_width, image_height = (2493, 1280) if image == "beach.webp" else (2560, 1280)
+            image_version = "20260727-beach2" if image == "beach.webp" else "20260727-game"
             localized_name = TERMS[code][slug]
             description = f'<p>{esc(copy)}</p>' if code == "en" else ""
-            biome_cards.append(f'<article class="wiki-entry wiki-entry-media"><img src="/assets/wiki/biomes/{image}?v=20260727-game" alt="{esc(localized_name)} — Tiny Block" width="2560" height="1280" loading="lazy"><div><p class="wiki-label">{esc(text["biome"])}</p><h2>{esc(localized_name)}</h2>{description}<dl><dt>{esc(text["terrain"])}</dt><dd>{esc(localize_list(terrain, code, catalog))}</dd><dt>{esc(text["plants"])}</dt><dd>{esc(localize_list(plants, code, catalog))}</dd><dt>{esc(text["creatures"])}</dt><dd>{esc(localize_list(creatures, code, catalog))}</dd></dl></div></article>')
+            biome_cards.append(f'<article class="wiki-entry wiki-entry-media"><img src="/assets/wiki/biomes/{image}?v={image_version}" alt="{esc(localized_name)} — Tiny Block" width="{image_width}" height="{image_height}" loading="lazy"><div><p class="wiki-label">{esc(text["biome"])}</p><h2>{esc(localized_name)}</h2>{description}<dl><dt>{esc(text["terrain"])}</dt><dd>{esc(localize_list(terrain, code, catalog))}</dd><dt>{esc(text["plants"])}</dt><dd>{esc(localize_list(plants, code, catalog))}</dd><dt>{esc(text["creatures"])}</dt><dd>{esc(localize_list(creatures, code, catalog))}</dd></dl></div></article>')
         page(text["biomes"], text["biomes_intro"], "wiki/biomes/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["world"])}</p><h1>{esc(text["biomes"])}</h1><p>{esc(text["biomes_intro"])}</p></section>{biome_variety_banner(BIOME_VARIETY[code])}<div class="wiki-stack">{"".join(biome_cards)}</div>', locale, locales)
         page(text["materials"], text["materials_intro"], "wiki/materials/", f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["mining"])}</p><h1>{esc(text["materials"])}</h1><p>{esc(text["materials_intro"])}</p></section>{infinite_banner(text)}{card_grid(MATERIALS, text["material"], "materials", code, catalog)}', locale, locales)
         creature_items = [(name, f'{copy} Habitat: {habitat}.', slug) for name, copy, habitat, slug in CREATURES]
