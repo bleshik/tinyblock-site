@@ -1500,6 +1500,10 @@ html.ready .stage {
   border-radius: 24px;
 }
 
+.wiki-main > .wiki-title + .wiki-wide-media {
+  margin-bottom: 1.5rem;
+}
+
 .wiki-wide-media figcaption { padding: 1rem 1.25rem; }
 
 .guide-steps {
