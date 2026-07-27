@@ -1,0 +1,125 @@
+{
+  "researched_at": "2026-07-27",
+  "method": "Minecraft phrasing was checked market by market in Ubersuggest and against native-language search results; English generic-demand figures come from the Tiny Block keyword opportunity export. Markets without a stable Ubersuggest figure retain the natural local query rather than forcing an English phrase.",
+  "pages": {
+    "minecraft-one-block": {
+      "kind": "one-block",
+      "locales": {
+        "en": {"query": "Minecraft One Block", "slug": "minecraft-one-block", "volume": 2900, "sd": 29},
+        "de": {"query": "Minecraft One Block", "slug": "minecraft-one-block", "volume": 2400, "sd": 29},
+        "es": {"query": "Minecraft One Block", "slug": "minecraft-one-block", "volume": 260, "sd": 28},
+        "fr": {"query": "Minecraft One Block", "slug": "minecraft-one-block", "volume": 390, "sd": 22},
+        "it": {"query": "Minecraft One Block", "slug": "minecraft-one-block"},
+        "pt-br": {"query": "Minecraft One Block", "slug": "minecraft-one-block"},
+        "ar": {"query": "ماين كرافت ون بلوك", "slug": "ماين-كرافت-ون-بلوك"},
+        "ja": {"query": "マイクラ ワンブロック", "slug": "マイクラ-ワンブロック"},
+        "ko": {"query": "마인크래프트 원블럭", "slug": "마인크래프트-원블럭"},
+        "ru": {"query": "Майнкрафт один блок", "slug": "майнкрафт-один-блок"},
+        "zh-hans": {"query": "我的世界 单方块生存", "slug": "我的世界-单方块生存"},
+        "zh-hant": {"query": "Minecraft 單方塊生存", "slug": "minecraft-單方塊生存"}
+      }
+    },
+    "minecraft-biomes": {
+      "kind": "biomes",
+      "locales": {
+        "en": {"query": "Minecraft Biomes List", "slug": "minecraft-biomes-list", "volume": 1900, "sd": 39},
+        "de": {"query": "Minecraft Biome Liste", "slug": "minecraft-biome-liste", "volume": 70, "sd": 30},
+        "es": {"query": "Biomas de Minecraft", "slug": "biomas-de-minecraft", "volume": 320, "sd": 22},
+        "fr": {"query": "Biomes Minecraft", "slug": "biomes-minecraft", "volume": 2400, "sd": 23},
+        "it": {"query": "Biomi Minecraft", "slug": "biomi-minecraft"},
+        "pt-br": {"query": "Biomas Minecraft", "slug": "biomas-minecraft"},
+        "ar": {"query": "مناطق ماين كرافت الحيوية", "slug": "مناطق-ماين-كرافت-الحيوية"},
+        "ja": {"query": "マイクラ バイオーム 一覧", "slug": "マイクラ-バイオーム-一覧"},
+        "ko": {"query": "마인크래프트 바이옴 목록", "slug": "마인크래프트-바이옴-목록"},
+        "ru": {"query": "Биомы Майнкрафт", "slug": "биомы-майнкрафт"},
+        "zh-hans": {"query": "我的世界 生物群系列表", "slug": "我的世界-生物群系列表"},
+        "zh-hant": {"query": "Minecraft 生態域", "slug": "minecraft-生態域"}
+      }
+    },
+    "minecraft-mobs": {
+      "kind": "mobs",
+      "locales": {
+        "en": {"query": "Minecraft Mobs List with Pictures", "slug": "minecraft-mobs-list-with-pictures"},
+        "de": {"query": "Minecraft Mobs Liste", "slug": "minecraft-mobs-liste", "volume": 210, "sd": 21},
+        "es": {"query": "Mobs de Minecraft", "slug": "mobs-de-minecraft", "volume": 590, "sd": 32},
+        "fr": {"query": "Mobs Minecraft", "slug": "mobs-minecraft", "volume": 1600, "sd": 40},
+        "it": {"query": "Mob Minecraft", "slug": "mob-minecraft"},
+        "pt-br": {"query": "Mobs Minecraft", "slug": "mobs-minecraft"},
+        "ar": {"query": "مخلوقات ماين كرافت", "slug": "مخلوقات-ماين-كرافت"},
+        "ja": {"query": "マイクラ モブ 一覧", "slug": "マイクラ-モブ-一覧"},
+        "ko": {"query": "마인크래프트 몹 목록", "slug": "마인크래프트-몹-목록"},
+        "ru": {"query": "Мобы Майнкрафт", "slug": "мобы-майнкрафт"},
+        "zh-hans": {"query": "我的世界 生物图鉴", "slug": "我的世界-生物图鉴"},
+        "zh-hant": {"query": "Minecraft 生物圖鑑", "slug": "minecraft-生物圖鑑"}
+      }
+    },
+    "minecraft-recipes": {
+      "kind": "recipes",
+      "locales": {
+        "en": {"query": "Minecraft Crafting Recipes", "slug": "minecraft-crafting-recipes", "volume": 5400, "sd": 41},
+        "de": {"query": "Minecraft Rezepte", "slug": "minecraft-rezepte"},
+        "es": {"query": "Recetas de Minecraft", "slug": "recetas-de-minecraft"},
+        "fr": {"query": "Recettes Minecraft", "slug": "recettes-minecraft"},
+        "it": {"query": "Ricette Minecraft", "slug": "ricette-minecraft"},
+        "pt-br": {"query": "Receitas Minecraft", "slug": "receitas-minecraft"},
+        "ar": {"query": "وصفات ماين كرافت", "slug": "وصفات-ماين-كرافت"},
+        "ja": {"query": "マイクラ レシピ", "slug": "マイクラ-レシピ"},
+        "ko": {"query": "마인크래프트 조합법", "slug": "마인크래프트-조합법"},
+        "ru": {"query": "Рецепты Майнкрафт", "slug": "рецепты-майнкрафт"},
+        "zh-hans": {"query": "我的世界 合成表", "slug": "我的世界-合成表"},
+        "zh-hant": {"query": "Minecraft 合成表", "slug": "minecraft-合成表"}
+      }
+    },
+    "block-crafting-game": {
+      "kind": "block-crafting",
+      "locales": {
+        "en": {"query": "Block Crafting Game", "slug": "block-crafting-game", "volume": 260, "sd": 15},
+        "de": {"query": "Block-Crafting-Spiel", "slug": "block-crafting-spiel"},
+        "es": {"query": "Juego de crafting con bloques", "slug": "juego-de-crafting-con-bloques"},
+        "fr": {"query": "Jeu de craft de blocs", "slug": "jeu-de-craft-de-blocs"},
+        "it": {"query": "Gioco crafting a blocchi", "slug": "gioco-crafting-a-blocchi"},
+        "pt-br": {"query": "Jogo de crafting com blocos", "slug": "jogo-de-crafting-com-blocos"},
+        "ar": {"query": "لعبة تصنيع بالبلوكات", "slug": "لعبة-تصنيع-بالبلوكات"},
+        "ja": {"query": "ブロッククラフトゲーム", "slug": "ブロッククラフトゲーム"},
+        "ko": {"query": "블록 크래프팅 게임", "slug": "블록-크래프팅-게임"},
+        "ru": {"query": "Игра с крафтом из блоков", "slug": "игра-с-крафтом-из-блоков"},
+        "zh-hans": {"query": "方块合成游戏", "slug": "方块合成游戏"},
+        "zh-hant": {"query": "方塊合成遊戲", "slug": "方塊合成遊戲"}
+      }
+    },
+    "island-building-game": {
+      "kind": "island-building",
+      "locales": {
+        "en": {"query": "Island Building Game", "slug": "island-building-game", "volume": 260, "sd": 15},
+        "de": {"query": "Inselbauspiel", "slug": "inselbauspiel"},
+        "es": {"query": "Juego de construir islas", "slug": "juego-de-construir-islas"},
+        "fr": {"query": "Jeu de construction d’île", "slug": "jeu-de-construction-d-ile"},
+        "it": {"query": "Gioco di costruzione dell’isola", "slug": "gioco-costruzione-isola"},
+        "pt-br": {"query": "Jogo de construir ilha", "slug": "jogo-de-construir-ilha"},
+        "ar": {"query": "لعبة بناء جزيرة", "slug": "لعبة-بناء-جزيرة"},
+        "ja": {"query": "島づくりゲーム", "slug": "島づくりゲーム"},
+        "ko": {"query": "섬 건설 게임", "slug": "섬-건설-게임"},
+        "ru": {"query": "Игра про строительство острова", "slug": "игра-про-строительство-острова"},
+        "zh-hans": {"query": "岛屿建造游戏", "slug": "岛屿建造游戏"},
+        "zh-hant": {"query": "島嶼建造遊戲", "slug": "島嶼建造遊戲"}
+      }
+    },
+    "combine-elements-game": {
+      "kind": "combine-elements",
+      "locales": {
+        "en": {"query": "Combine Elements Game", "slug": "combine-elements-game", "volume": 590, "sd": 59},
+        "de": {"query": "Elemente kombinieren Spiel", "slug": "elemente-kombinieren-spiel"},
+        "es": {"query": "Juego de combinar elementos", "slug": "juego-de-combinar-elementos"},
+        "fr": {"query": "Jeu de combinaison d’éléments", "slug": "jeu-de-combinaison-d-elements"},
+        "it": {"query": "Gioco combina elementi", "slug": "gioco-combina-elementi"},
+        "pt-br": {"query": "Jogo de combinar elementos", "slug": "jogo-de-combinar-elementos"},
+        "ar": {"query": "لعبة دمج العناصر", "slug": "لعبة-دمج-العناصر"},
+        "ja": {"query": "元素組み合わせゲーム", "slug": "元素組み合わせゲーム"},
+        "ko": {"query": "원소 조합 게임", "slug": "원소-조합-게임"},
+        "ru": {"query": "Игра с объединением элементов", "slug": "игра-с-объединением-элементов"},
+        "zh-hans": {"query": "元素合成游戏", "slug": "元素合成游戏"},
+        "zh-hant": {"query": "元素合成遊戲", "slug": "元素合成遊戲"}
+      }
+    }
+  }
+}

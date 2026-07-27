@@ -23,6 +23,12 @@ For a compact self-contained gameplay reference, read [Full Tiny Block game cont
 - [Plants](https://tinyblock.nosuchgames.com/wiki/plants/): Flowers, vines, decorative plants, and biome-specific trees
 - [Recipes](https://tinyblock.nosuchgames.com/wiki/recipes/): Confirmed starting recipes and results
 
+## Gameplay guides by intent
+
+- [Block Crafting Game](https://tinyblock.nosuchgames.com/block-crafting-game/): How Tiny Block recipes, material reactions, tools, storage, and light work
+- [Island Building Game](https://tinyblock.nosuchgames.com/island-building-game/): How a one-block start grows into a safe living island with new structures and biomes
+- [Combine Elements Game](https://tinyblock.nosuchgames.com/combine-elements-game/): Confirmed combinations and the open-ended discovery system
+
 ## Languages
 
 - [Deutsch](https://tinyblock.nosuchgames.com/de/wiki/)
@@ -49,4 +55,3 @@ For a compact self-contained gameplay reference, read [Full Tiny Block game cont
 - [Privacy policy](https://tinyblock.nosuchgames.com/privacy/): Data collection, analytics consent, and privacy contact
 - [Creator program](https://tinyblock.nosuchgames.com/creators/): Information for video creators and collaborators
 - [Sitemap](https://tinyblock.nosuchgames.com/sitemap.xml): Complete index of localized site pages
-

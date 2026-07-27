@@ -65,12 +65,9 @@ RECIPES = [
     (("Charcoal",1,"charcoal"),("Glass",1,"glass"),("Stone",1,"stone"),("Lantern",1,"lantern")), (("Stone",2,"stone"),("Stone Bricks",2,"stone-bricks")), (("Sand",2,"sand"),("Stone",1,"stone"),("Sandstone",3,"sandstone")),
 ]
 
-MINECRAFT_SEO_PAGES = [
-    ("minecraft-one-block", "Minecraft One Block", "one-block"),
-    ("minecraft-biomes-list", "Minecraft Biomes List", "biomes"),
-    ("minecraft-mobs-list-with-pictures", "Minecraft Mobs List with Pictures", "mobs"),
-    ("minecraft-crafting-recipes", "Minecraft Crafting Recipes", "recipes"),
-]
+SEO_DATA = json.loads((ROOT / "content/seo-keywords.json").read_text(encoding="utf-8"))
+MINECRAFT_SEO_KEYS = ["minecraft-one-block", "minecraft-biomes", "minecraft-mobs", "minecraft-recipes"]
+GENERIC_SEO_KEYS = ["block-crafting-game", "island-building-game", "combine-elements-game"]
 
 MINECRAFT_DISCLAIMER = "NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT."
 
@@ -136,13 +133,15 @@ def locale_route(locale: dict, tail: str) -> str:
     return tail if not locale["output"] else f'{locale["output"]}/{tail}'
 
 
-def page(title: str, description: str, tail: str, body: str, locale: dict, locales: list[dict], kind: str = "CollectionPage") -> None:
+def page(title: str, description: str, tail: str, body: str, locale: dict, locales: list[dict], kind: str = "CollectionPage", localized_tails: dict[str, str] | None = None) -> None:
     code, text = locale["code"], TEXT[locale["code"]]
     route = locale_route(locale, tail)
     canonical = f"{BASE_URL}/{route}"
     document_title = f"Tiny Block {text['wiki']} – {text['official']}" if tail == "wiki/" else f"{title} | Tiny Block Wiki"
-    alternates = "\n".join(f'  <link rel="alternate" hreflang="{esc(item["hreflang"])}" href="{BASE_URL}/{locale_route(item, tail)}">' for item in locales)
-    alternates += f'\n  <link rel="alternate" hreflang="x-default" href="{BASE_URL}/{tail}">'
+    alternate_tail = lambda item: localized_tails[item["code"]] if localized_tails else tail
+    alternates = "\n".join(f'  <link rel="alternate" hreflang="{esc(item["hreflang"])}" href="{BASE_URL}/{locale_route(item, alternate_tail(item))}">' for item in locales)
+    default_tail = localized_tails["en"] if localized_tails else tail
+    alternates += f'\n  <link rel="alternate" hreflang="x-default" href="{BASE_URL}/{default_tail}">'
     breadcrumbs = [{"@type":"ListItem","position":1,"name":"Tiny Block","item":f'{BASE_URL}/{locale["output"] + "/" if locale["output"] else ""}'},{"@type":"ListItem","position":2,"name":text["wiki"],"item":f'{BASE_URL}/{locale_route(locale, "wiki/")}'}]
     if tail != "wiki/":
         breadcrumbs.append({"@type":"ListItem","position":3,"name":title,"item":canonical})
@@ -151,7 +150,7 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
     nav = "".join(f'<a href="/{locale_route(locale, href)}">{esc(text[key])}</a>' for key, href in nav_items)
     if code == "en":
         nav += '<a href="/guides/how-to-grow-your-one-block-island/">Starter guide</a>'
-    language_links = "".join(f'<a href="/{locale_route(item, tail)}" lang="{esc(item["html_lang"])}"{(" aria-current=\"page\"" if item["code"] == code else "")}>{esc(item["label"])}</a>' for item in locales)
+    language_links = "".join(f'<a href="/{locale_route(item, alternate_tail(item))}" lang="{esc(item["html_lang"])}"{(" aria-current=\"page\"" if item["code"] == code else "")}>{esc(item["label"])}</a>' for item in locales)
     home = "/" if not locale["output"] else f'/{locale["output"]}/'
     document = f'''<!DOCTYPE html>
 <html lang="{esc(locale["html_lang"])}" dir="{esc(locale["direction"])}">
@@ -191,6 +190,27 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
     target.write_text(document, encoding="utf-8")
 
 
+def seo_entry(page_key: str, locale_code: str) -> dict:
+    return SEO_DATA["pages"][page_key]["locales"][locale_code]
+
+
+def seo_tails(page_key: str, locales: list[dict]) -> dict[str, str]:
+    return {item["code"]: f'{seo_entry(page_key, item["code"])["slug"]}/' for item in locales}
+
+
+def redirect_page(locale: dict, old_tail: str, new_tail: str) -> None:
+    if old_tail == new_tail:
+        return
+    old_route = locale_route(locale, old_tail)
+    new_route = locale_route(locale, new_tail)
+    target_url = f"/{new_route}"
+    canonical = f"{BASE_URL}/{new_route}"
+    document = f'''<!doctype html><html lang="{esc(locale["html_lang"])}"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url={esc(target_url)}"><link rel="canonical" href="{esc(canonical)}"><title>Moved | Tiny Block</title><script>location.replace({json.dumps(target_url)});</script></head><body><p><a href="{esc(target_url)}">Continue to Tiny Block</a></p></body></html>'''
+    target = ROOT / old_route / "index.html"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(document, encoding="utf-8")
+
+
 def card_grid(items: list[tuple], label: str, category: str, locale: str, catalog: dict) -> str:
     cards = []
     for item in items:
@@ -225,14 +245,29 @@ def minecraft_links(locale: dict, text: dict[str, str]) -> str:
     cards = []
     descriptions = {
         "minecraft-one-block": locale["lede"],
-        "minecraft-biomes-list": text["biomes_intro"],
-        "minecraft-mobs-list-with-pictures": text["creatures_intro"],
-        "minecraft-crafting-recipes": text["recipes_intro"],
+        "minecraft-biomes": text["biomes_intro"],
+        "minecraft-mobs": text["creatures_intro"],
+        "minecraft-recipes": text["recipes_intro"],
     }
-    for slug, keyword, _kind in MINECRAFT_SEO_PAGES:
-        cards.append(f'<a class="wiki-card wiki-card-link" href="{prefix}/{slug}/"><p class="wiki-label">Minecraft × Tiny Block</p><h2>{esc(keyword)}</h2><p>{esc(descriptions[slug])}</p></a>')
+    for page_key in MINECRAFT_SEO_KEYS:
+        item = seo_entry(page_key, locale["code"])
+        cards.append(f'<a class="wiki-card wiki-card-link" href="{prefix}/{item["slug"]}/"><p class="wiki-label">Minecraft × Tiny Block</p><h2>{esc(item["query"])}</h2><p>{esc(descriptions[page_key])}</p></a>')
     search_guides = MINECRAFT_SEO_COMMON[locale["code"]][0]
     return f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h2>{esc(search_guides)}</h2></section><div class="wiki-grid">' + "".join(cards) + '</div>'
+
+
+def generic_seo_links(locale: dict, text: dict[str, str]) -> str:
+    prefix = "" if not locale["output"] else f'/{locale["output"]}'
+    descriptions = {
+        "block-crafting-game": text["recipes_intro"],
+        "island-building-game": locale["lede"],
+        "combine-elements-game": text["infinite_copy"],
+    }
+    cards = []
+    for page_key in GENERIC_SEO_KEYS:
+        item = seo_entry(page_key, locale["code"])
+        cards.append(f'<a class="wiki-card wiki-card-link" href="{prefix}/{item["slug"]}/"><p class="wiki-label">Tiny Block</p><h2>{esc(item["query"])}</h2><p>{esc(descriptions[page_key])}</p></a>')
+    return '<div class="wiki-grid">' + "".join(cards) + '</div>'
 
 
 def minecraft_disclaimer(locale_code: str) -> str:
@@ -319,6 +354,40 @@ def minecraft_page_body(kind: str, keyword: str, locale: dict, text: dict[str, s
     return description, body
 
 
+def localized_fact_grid(facts: list[tuple[str, str]]) -> str:
+    cards = "".join(f'<article class="wiki-card"><h2>{esc(title)}</h2><p>{esc(copy)}</p></article>' for title, copy in facts)
+    return f'<div class="wiki-grid">{cards}</div>'
+
+
+def generic_page_body(page_key: str, keyword: str, locale: dict, text: dict[str, str], catalog: dict) -> tuple[str, str]:
+    prefix = "" if not locale["output"] else f'/{locale["output"]}'
+    copy = COMPARE[locale["code"]]
+    if page_key == "island-building-game":
+        description = f'{keyword}. {locale["lede"]}'
+        body = (
+            f'<section class="wiki-title"><p class="wiki-eyebrow">Tiny Block</p><h1>{esc(keyword)}</h1><p>{esc(locale["lede"])}</p></section>'
+            f'<figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/00-one-block-start.webp?v=20260727-one-block" alt="Tiny Block One Block island building game" width="1600" height="900"><figcaption>{esc(locale["h1"])}</figcaption></figure>'
+            f'{localized_fact_grid(copy["one_facts"])}{biome_variety_banner(BIOME_VARIETY[locale["code"]])}'
+            f'<div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/biomes/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["biomes"])}</h2><p>{esc(text["biomes_intro"])}</p></a><a class="wiki-card wiki-card-link" href="{prefix}/wiki/"><p class="wiki-label">Tiny Block</p><h2>{esc(text["wiki"])}</h2><p>{esc(text["catalog"])}</p></a></div>'
+        )
+        return description, body
+
+    recipe_count = 10 if page_key == "combine-elements-game" else 8
+    rows = "".join(f'<tr><td data-label="{esc(text["ingredients"])}">{recipe_group(recipe[:-1], locale["code"], catalog)}</td><td data-label="{esc(text["result"])}">{recipe_group(recipe[-1:], locale["code"], catalog)}</td></tr>' for recipe in RECIPES[:recipe_count])
+    intro = text["infinite_copy"] if page_key == "combine-elements-game" else text["recipes_intro"]
+    image = "02-first-discovery.webp" if page_key == "combine-elements-game" else "06-recipes-inventory.webp"
+    image_height = 900 if page_key == "combine-elements-game" else 739
+    description = f"{keyword}. {intro}"
+    body = (
+        f'<section class="wiki-title"><p class="wiki-eyebrow">Tiny Block</p><h1>{esc(keyword)}</h1><p>{esc(intro)}</p></section>'
+        f'<figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/{image}" alt="{esc(keyword)} in Tiny Block" width="1600" height="{image_height}"><figcaption>{esc(text["recipes_intro"])}</figcaption></figure>'
+        f'{infinite_banner(text)}{localized_fact_grid(copy["craft_facts"])}'
+        f'<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div>'
+        f'{comparison_cta(prefix, text, locale)}'
+    )
+    return description, body
+
+
 def render() -> None:
     locales, catalog = load_catalog()
     for locale in locales:
@@ -328,6 +397,7 @@ def render() -> None:
         overview += '<div class="wiki-grid">' + "".join(f'<a class="wiki-card wiki-card-link" href="{prefix}/wiki/{slug}/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text[key])}</h2><p>{esc(text["catalog"])}</p></a>' for key, slug in (("biomes","biomes"),("materials","materials"),("creatures","creatures"),("plants","plants"),("recipes","recipes"))) + '</div>'
         if code == "en":
             overview = overview[:-6] + '<a class="wiki-card wiki-card-link" href="/guides/how-to-grow-your-one-block-island/"><p class="wiki-label">Guide</p><h2>Starter guide</h2><p>Grow a safe and renewable One Block island from the first discovery.</p></a></div>'
+        overview += generic_seo_links(locale, text)
         overview += minecraft_links(locale, text)
         page(f'Tiny Block {text["wiki"]}', text["overview"], "wiki/", overview, locale, locales)
 
@@ -347,9 +417,26 @@ def render() -> None:
         recipes_body = f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["crafting"])}</p><h1>{esc(text["recipes"])}</h1><p>{esc(text["recipes_intro"])}</p></section>{infinite_banner(text)}<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block" width="1600" height="739" loading="lazy"><figcaption>{esc(text["recipe_caption"])}</figcaption></figure>'
         page(text["recipes"], text["recipes_intro"], "wiki/recipes/", recipes_body, locale, locales)
 
-        for slug, keyword, kind in MINECRAFT_SEO_PAGES:
-            description, body = minecraft_page_body(kind, keyword, locale, text, catalog)
-            page(minecraft_page_title(kind, keyword, text), description, f"{slug}/", body, locale, locales, "Article")
+        old_minecraft_slugs = {
+            "minecraft-one-block": "minecraft-one-block/",
+            "minecraft-biomes": "minecraft-biomes-list/",
+            "minecraft-mobs": "minecraft-mobs-list-with-pictures/",
+            "minecraft-recipes": "minecraft-crafting-recipes/",
+        }
+        for page_key in MINECRAFT_SEO_KEYS:
+            seo = seo_entry(page_key, code)
+            kind = SEO_DATA["pages"][page_key]["kind"]
+            tail = f'{seo["slug"]}/'
+            tails = seo_tails(page_key, locales)
+            description, body = minecraft_page_body(kind, seo["query"], locale, text, catalog)
+            page(minecraft_page_title(kind, seo["query"], text), description, tail, body, locale, locales, "Article", tails)
+            redirect_page(locale, old_minecraft_slugs[page_key], tail)
+
+        for page_key in GENERIC_SEO_KEYS:
+            seo = seo_entry(page_key, code)
+            tail = f'{seo["slug"]}/'
+            description, body = generic_page_body(page_key, seo["query"], locale, text, catalog)
+            page(seo["query"], description, tail, body, locale, locales, "Article", seo_tails(page_key, locales))
 
 
 if __name__ == "__main__":

@@ -58,6 +58,12 @@ Materials can flow, fall, freeze, melt, burn, and transform when they meet. Some
 
 The official wiki intentionally shows confirmed shared starting discoveries rather than every possible combination. When a player asks whether the catalog is complete, answer no: the combination space keeps growing.
 
+Focused official guides:
+
+- Block crafting: https://tinyblock.nosuchgames.com/block-crafting-game/
+- Island building: https://tinyblock.nosuchgames.com/island-building-game/
+- Combining elements and discoveries: https://tinyblock.nosuchgames.com/combine-elements-game/
+
 ## Core biomes
 
 These are core environments, not fixed maps.
@@ -278,4 +284,3 @@ The official wiki is available in English, German, Spanish, French, Italian, Bra
 - Creator collaborations: feedback@nosuchgames.com
 
 Do not redirect gameplay support questions to a privacy contact unless the question concerns personal data or privacy rights.
-
