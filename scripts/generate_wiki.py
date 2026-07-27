@@ -64,6 +64,30 @@ RECIPES = [
     (("Charcoal",1,"charcoal"),("Glass",1,"glass"),("Stone",1,"stone"),("Lantern",1,"lantern")), (("Stone",2,"stone"),("Stone Bricks",2,"stone-bricks")), (("Sand",2,"sand"),("Stone",1,"stone"),("Sandstone",3,"sandstone")),
 ]
 
+MINECRAFT_SEO_PAGES = [
+    ("minecraft-one-block", "Minecraft One Block", "one-block"),
+    ("minecraft-biomes-list", "Minecraft Biomes List", "biomes"),
+    ("minecraft-mobs-list-with-pictures", "Minecraft Mobs List with Pictures", "mobs"),
+    ("minecraft-crafting-recipes", "Minecraft Crafting Recipes", "recipes"),
+]
+
+MINECRAFT_DISCLAIMER = "NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT."
+
+MINECRAFT_SEO_COMMON = {
+    "en": ("Search guides and comparisons", "Independent comparison", "Tiny Block is an independent game"),
+    "de": ("Suchguides und Vergleiche", "Unabhängiger Vergleich", "Tiny Block ist ein eigenständiges Spiel"),
+    "es": ("Guías de búsqueda y comparaciones", "Comparación independiente", "Tiny Block es un juego independiente"),
+    "fr": ("Guides de recherche et comparaisons", "Comparaison indépendante", "Tiny Block est un jeu indépendant"),
+    "it": ("Guide di ricerca e confronti", "Confronto indipendente", "Tiny Block è un gioco indipendente"),
+    "pt-br": ("Guias de pesquisa e comparações", "Comparação independente", "Tiny Block é um jogo independente"),
+    "ar": ("أدلة البحث والمقارنات", "مقارنة مستقلة", "Tiny Block لعبة مستقلة"),
+    "ja": ("検索ガイドと比較", "独立した比較", "Tiny Blockは独立したゲームです"),
+    "ko": ("검색 가이드와 비교", "독립적인 비교", "Tiny Block은 독립적인 게임입니다"),
+    "ru": ("Поисковые гиды и сравнения", "Независимое сравнение", "Tiny Block — самостоятельная игра"),
+    "zh-hans": ("搜索指南与比较", "独立比较", "Tiny Block是一款独立游戏"),
+    "zh-hant": ("搜尋指南與比較", "獨立比較", "Tiny Block是一款獨立遊戲"),
+}
+
 
 def esc(value: str) -> str:
     return html.escape(value, quote=True)
@@ -129,7 +153,7 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
 {alternates}
   <link rel="icon" href="/favicon.png" type="image/png">
   <meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:type" content="article"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE_URL}/og-seo.png"><meta property="og:locale" content="{esc(locale["og_locale"])}"><meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260726-3">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-1">
   <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
 <body class="wiki-page"><header class="wiki-header"><a class="wiki-brand" href="{home}">Tiny Block</a><div class="wiki-header-actions"><a class="btn btn-primary wiki-install" href="/download/">{esc(text["play"])}</a><details class="language-menu"><summary aria-label="{esc(text["language"])}">{esc(locale["label"])}</summary><nav aria-label="{esc(text["language"])}">{language_links}</nav></details></div></header>
@@ -170,6 +194,68 @@ def biome_variety_banner(text: dict[str, str]) -> str:
     return f'<aside class="wiki-infinite wiki-biome-variety"><p class="wiki-label">{esc(text["kicker"])}</p><h2>{esc(text["title"])}</h2><p>{esc(text["copy"])}</p><div class="wiki-infinite-mark" aria-hidden="true">∞</div></aside>'
 
 
+def minecraft_links(locale: dict, text: dict[str, str]) -> str:
+    prefix = "" if not locale["output"] else f'/{locale["output"]}'
+    cards = []
+    descriptions = {
+        "minecraft-one-block": locale["lede"],
+        "minecraft-biomes-list": text["biomes_intro"],
+        "minecraft-mobs-list-with-pictures": text["creatures_intro"],
+        "minecraft-crafting-recipes": text["recipes_intro"],
+    }
+    for slug, keyword, _kind in MINECRAFT_SEO_PAGES:
+        cards.append(f'<a class="wiki-card wiki-card-link" href="{prefix}/{slug}/"><p class="wiki-label">Minecraft × Tiny Block</p><h2>{esc(keyword)}</h2><p>{esc(descriptions[slug])}</p></a>')
+    search_guides = MINECRAFT_SEO_COMMON[locale["code"]][0]
+    return f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h2>{esc(search_guides)}</h2></section><div class="wiki-grid">' + "".join(cards) + '</div>'
+
+
+def minecraft_disclaimer(locale_code: str) -> str:
+    _search, independent, own_game = MINECRAFT_SEO_COMMON[locale_code]
+    return f'<aside class="wiki-infinite"><p class="wiki-label">{esc(independent)}</p><h2>{esc(own_game)}</h2><p>{esc(MINECRAFT_DISCLAIMER)}</p><div class="wiki-infinite-mark" aria-hidden="true">≠</div></aside>'
+
+
+def minecraft_page_title(kind: str, keyword: str, text: dict[str, str]) -> str:
+    if kind == "one-block":
+        return f"{keyword} vs Tiny Block"
+    if kind == "biomes":
+        return f"{keyword} vs Tiny Block {text['biomes']}"
+    if kind == "mobs":
+        return f"{keyword}: Tiny Block {text['creatures']}"
+    return f"{keyword} vs Tiny Block {text['recipes']}"
+
+
+def minecraft_page_body(kind: str, keyword: str, locale: dict, text: dict[str, str], catalog: dict) -> tuple[str, str]:
+    prefix = "" if not locale["output"] else f'/{locale["output"]}'
+    if kind == "one-block":
+        description = f'{keyword} compared with Tiny Block. {locale["lede"]}'
+        steps = "".join(
+            f'<article><span>{index:02d}</span><h2>{esc(feature["title"])}</h2><p>{esc(feature["copy"])}</p></article>'
+            for index, feature in enumerate(locale["features"], 1)
+        )
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)} vs Tiny Block</h1><p>{esc(locale["lede"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/01-one-block-skyblock.webp?v=20260726-color" alt="Tiny Block One Block Skyblock" width="1600" height="900"><figcaption>{esc(locale["about_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}<section class="guide-steps">{steps}</section><div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/"><p class="wiki-label">{esc(text["guide"])}</p><h2>Tiny Block Wiki</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+        return description, body
+
+    if kind == "biomes":
+        description = f'{keyword} compared with Tiny Block biomes. {text["biomes_intro"]}'
+        biome_cards = "".join(
+            f'<article class="wiki-card"><p class="wiki-label">{esc(text["biome"])}</p><h2>{esc(TERMS[locale["code"]][slug])}</h2><p>{esc(text["terrain"])}: {esc(localize_list(terrain, locale["code"], catalog))}</p></article>'
+            for _name, _copy, terrain, _plants, _creatures, _image, slug in BIOMES
+        )
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)} vs Tiny Block {esc(text["biomes"])}</h1><p>{esc(text["biomes_intro"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/05-random-world.webp?v=20260726-color" alt="Tiny Block biomes" width="1600" height="900"><figcaption>{esc(text["infinite_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}<div class="wiki-grid">{biome_cards}</div><div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/biomes/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["biomes"])}</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+        return description, body
+
+    if kind == "mobs":
+        description = f'{keyword} compared with original Tiny Block creatures. {text["creatures_intro"]}'
+        creature_items = [(name, f'{copy} Habitat: {habitat}.', slug) for name, copy, habitat, slug in CREATURES]
+        body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)}: Tiny Block {esc(text["creatures"])}</h1><p>{esc(text["creatures_intro"])}</p></section>{minecraft_disclaimer(locale["code"])}{card_grid(creature_items, text["creature"], "creatures", locale["code"], catalog)}<div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/creatures/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["creatures"])}</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+        return description, body
+
+    description = f'{keyword} compared with Tiny Block discovery combinations. {text["recipes_intro"]}'
+    rows = "".join(f'<tr><td data-label="{esc(text["ingredients"])}">{recipe_group(recipe[:-1], locale["code"], catalog)}</td><td data-label="{esc(text["result"])}">{recipe_group(recipe[-1:], locale["code"], catalog)}</td></tr>' for recipe in RECIPES)
+    body = f'<section class="wiki-title"><p class="wiki-eyebrow">Minecraft × Tiny Block</p><h1>{esc(keyword)} vs Tiny Block {esc(text["recipes"])}</h1><p>{esc(text["recipes_intro"])}</p></section><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block crafting recipes" width="1600" height="739"><figcaption>{esc(text["infinite_copy"])}</figcaption></figure>{minecraft_disclaimer(locale["code"])}<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div><div class="wiki-grid"><a class="wiki-card wiki-card-link" href="{prefix}/wiki/recipes/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text["recipes"])}</h2><p>{esc(text["catalog"])}</p></a><a class="wiki-card wiki-card-link" href="/download/"><p class="wiki-label">iOS + Android</p><h2>{esc(text["play"])}</h2><p>{esc(locale["platforms"])}</p></a></div>'
+    return description, body
+
+
 def render() -> None:
     locales, catalog = load_catalog()
     for locale in locales:
@@ -179,6 +265,7 @@ def render() -> None:
         overview += '<div class="wiki-grid">' + "".join(f'<a class="wiki-card wiki-card-link" href="{prefix}/wiki/{slug}/"><p class="wiki-label">{esc(text["guide"])}</p><h2>{esc(text[key])}</h2><p>{esc(text["catalog"])}</p></a>' for key, slug in (("biomes","biomes"),("materials","materials"),("creatures","creatures"),("plants","plants"),("recipes","recipes"))) + '</div>'
         if code == "en":
             overview = overview[:-6] + '<a class="wiki-card wiki-card-link" href="/guides/how-to-grow-your-one-block-island/"><p class="wiki-label">Guide</p><h2>Starter guide</h2><p>Grow a safe and renewable One Block island from the first discovery.</p></a></div>'
+        overview += minecraft_links(locale, text)
         page(f'Tiny Block {text["wiki"]}', text["overview"], "wiki/", overview, locale, locales)
 
         biome_cards = []
@@ -196,6 +283,10 @@ def render() -> None:
         rows = "".join(f'<tr><td data-label="{esc(text["ingredients"])}">{recipe_group(recipe[:-1], code, catalog)}</td><td data-label="{esc(text["result"])}">{recipe_group(recipe[-1:], code, catalog)}</td></tr>' for recipe in RECIPES)
         recipes_body = f'<section class="wiki-title"><p class="wiki-eyebrow">{esc(text["crafting"])}</p><h1>{esc(text["recipes"])}</h1><p>{esc(text["recipes_intro"])}</p></section>{infinite_banner(text)}<div class="wiki-table-wrap"><table class="wiki-table"><thead><tr><th>{esc(text["ingredients"])}</th><th>{esc(text["result"])}</th></tr></thead><tbody>{rows}</tbody></table></div><figure class="wiki-wide-media"><img src="/assets/wiki/gameplay/06-recipes-inventory.webp" alt="Tiny Block" width="1600" height="739" loading="lazy"><figcaption>{esc(text["recipe_caption"])}</figcaption></figure>'
         page(text["recipes"], text["recipes_intro"], "wiki/recipes/", recipes_body, locale, locales)
+
+        for slug, keyword, kind in MINECRAFT_SEO_PAGES:
+            description, body = minecraft_page_body(kind, keyword, locale, text, catalog)
+            page(minecraft_page_title(kind, keyword, text), description, f"{slug}/", body, locale, locales, "Article")
 
 
 if __name__ == "__main__":

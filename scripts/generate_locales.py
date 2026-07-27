@@ -28,6 +28,12 @@ STATIC_ROUTES = [
     ("privacy/", "yearly", "0.2"),
 ]
 WIKI_ROUTES = ["wiki/", "wiki/biomes/", "wiki/materials/", "wiki/creatures/", "wiki/plants/", "wiki/recipes/"]
+MINECRAFT_SEO_ROUTES = [
+    "minecraft-one-block/",
+    "minecraft-biomes-list/",
+    "minecraft-mobs-list-with-pictures/",
+    "minecraft-crafting-recipes/",
+]
 
 
 def route_url(locale: dict) -> str:
@@ -131,6 +137,15 @@ def render() -> None:
         f"  <url><loc>{BASE_URL}/{locale['output']}/{route}</loc><lastmod>{lastmod}</lastmod><changefreq>{'weekly' if route == 'wiki/' else 'monthly'}</changefreq><priority>{'0.8' if route == 'wiki/' else '0.7'}</priority></url>"
         for locale in locales if locale["output"]
         for route in WIKI_ROUTES
+    )
+    urls += "\n" + "\n".join(
+        f"  <url><loc>{BASE_URL}/{route}</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>"
+        for route in MINECRAFT_SEO_ROUTES
+    )
+    urls += "\n" + "\n".join(
+        f"  <url><loc>{BASE_URL}/{locale['output']}/{route}</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>"
+        for locale in locales if locale["output"]
+        for route in MINECRAFT_SEO_ROUTES
     )
     sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
