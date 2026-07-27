@@ -163,7 +163,7 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
 {alternates}
   <link rel="icon" href="/favicon.png" type="image/png">
   <meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:type" content="article"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE_URL}/og-seo.png"><meta property="og:locale" content="{esc(locale["og_locale"])}"><meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-3">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-4">
   <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
 <body class="wiki-page"><header class="wiki-header"><a class="wiki-brand" href="{home}">Tiny Block</a><div class="wiki-header-actions"><a class="btn btn-primary wiki-install" href="/download/">{esc(text["play"])}</a><details class="language-menu"><summary aria-label="{esc(text["language"])}">{esc(locale["label"])}</summary><nav aria-label="{esc(text["language"])}">{language_links}</nav></details></div></header>

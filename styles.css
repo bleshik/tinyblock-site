@@ -1245,6 +1245,10 @@ html.ready .stage {
   text-align: center;
 }
 
+.wiki-main > .wiki-grid + .wiki-title {
+  margin-top: 4rem;
+}
+
 .wiki-hero h1,
 .wiki-title h1 {
   margin: 0;
