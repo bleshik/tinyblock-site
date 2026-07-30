@@ -9,11 +9,15 @@ import json
 from pathlib import Path
 
 from minecraft_compare_i18n import COMPARE
+from multiplayer_seo import PAGES as MULTIPLAYER_SEO_PAGES
+from multiplayer_seo_locales import EXTRA_PAGES as EXTRA_LOCAL_MULTIPLAYER_SEO_PAGES
+from multiplayer_seo_locales import PAGES as LOCAL_MULTIPLAYER_SEO_PAGES
 from wiki_i18n import BIOME_VARIETY, TERMS, TEXT
 
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_URL = "https://tinyblock.nosuchgames.com"
+MULTIPLAYER_HOME = json.loads((ROOT / "content" / "multiplayer-home.json").read_text(encoding="utf-8"))
 LOCALE_COLUMNS = {"en":"en","de":"de","es":"es","fr":"fr","it":"it","pt-br":"pt_BR","ar":"ar","ja":"ja","ko":"ko","ru":"ru","zh-hans":"zh_Hans","zh-hant":"zh_Hant"}
 
 BIOMES = [
@@ -68,6 +72,7 @@ RECIPES = [
 SEO_DATA = json.loads((ROOT / "content/seo-keywords.json").read_text(encoding="utf-8"))
 MINECRAFT_SEO_KEYS = ["minecraft-one-block", "minecraft-biomes", "minecraft-mobs", "minecraft-recipes"]
 GENERIC_SEO_KEYS = ["block-crafting-game", "island-building-game", "combine-elements-game"]
+MULTIPLAYER_SEO_KEYS = list(MULTIPLAYER_SEO_PAGES)
 
 MINECRAFT_DISCLAIMER = "NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT."
 
@@ -133,25 +138,58 @@ def locale_route(locale: dict, tail: str) -> str:
     return tail if not locale["output"] else f'{locale["output"]}/{tail}'
 
 
-def page(title: str, description: str, tail: str, body: str, locale: dict, locales: list[dict], kind: str = "CollectionPage", localized_tails: dict[str, str] | None = None) -> None:
+def page(
+    title: str,
+    description: str,
+    tail: str,
+    body: str,
+    locale: dict,
+    locales: list[dict],
+    kind: str = "CollectionPage",
+    localized_tails: dict[str, str] | None = None,
+    extra_schema: list[dict] | None = None,
+    english_only: bool = False,
+    tracking_cluster: str = "",
+    social_image_path: str = "",
+    social_image_alt: str = "",
+    x_default_tail: str = "",
+) -> None:
     code, text = locale["code"], TEXT[locale["code"]]
     route = locale_route(locale, tail)
     canonical = f"{BASE_URL}/{route}"
-    document_title = f"Tiny Block {text['wiki']} – {text['official']}" if tail == "wiki/" else f"{title} | Tiny Block Wiki"
+    document_title = (
+        f"Tiny Block {text['wiki']} – {text['official']}"
+        if tail == "wiki/"
+        else (f"{title} | Tiny Block" if tracking_cluster else f"{title} | Tiny Block Wiki")
+    )
     alternate_tail = lambda item: localized_tails[item["code"]] if localized_tails else tail
-    alternates = "\n".join(f'  <link rel="alternate" hreflang="{esc(item["hreflang"])}" href="{BASE_URL}/{locale_route(item, alternate_tail(item))}">' for item in locales)
-    default_tail = localized_tails["en"] if localized_tails else tail
+    alternate_locales = [locale] if english_only else locales
+    alternates = "\n".join(f'  <link rel="alternate" hreflang="{esc(item["hreflang"])}" href="{BASE_URL}/{locale_route(item, alternate_tail(item))}">' for item in alternate_locales)
+    default_tail = x_default_tail or (localized_tails["en"] if localized_tails else tail)
     alternates += f'\n  <link rel="alternate" hreflang="x-default" href="{BASE_URL}/{default_tail}">'
     breadcrumbs = [{"@type":"ListItem","position":1,"name":"Tiny Block","item":f'{BASE_URL}/{locale["output"] + "/" if locale["output"] else ""}'},{"@type":"ListItem","position":2,"name":text["wiki"],"item":f'{BASE_URL}/{locale_route(locale, "wiki/")}'}]
     if tail != "wiki/":
         breadcrumbs.append({"@type":"ListItem","position":3,"name":title,"item":canonical})
-    schema = {"@context":"https://schema.org","@graph":[{"@type":kind,"name":title,"description":description,"url":canonical,"inLanguage":locale["html_lang"],"isPartOf":{"@id":f"{BASE_URL}/#game"}},{"@type":"BreadcrumbList","itemListElement":breadcrumbs}]}
+    graph = [{"@type":kind,"name":title,"description":description,"url":canonical,"inLanguage":locale["html_lang"],"isPartOf":{"@id":f"{BASE_URL}/#game"}},{"@type":"BreadcrumbList","itemListElement":breadcrumbs}]
+    if extra_schema:
+        graph.extend(extra_schema)
+    schema = {"@context":"https://schema.org","@graph":graph}
     nav_items = [("wiki","wiki/"),("biomes","wiki/biomes/"),("materials","wiki/materials/"),("creatures","wiki/creatures/"),("plants","wiki/plants/"),("recipes","wiki/recipes/")]
     nav = "".join(f'<a href="/{locale_route(locale, href)}">{esc(text[key])}</a>' for key, href in nav_items)
     if code == "en":
         nav += '<a href="/guides/how-to-grow-your-one-block-island/">Starter guide</a>'
-    language_links = "".join(f'<a href="/{locale_route(item, alternate_tail(item))}" lang="{esc(item["html_lang"])}"{(" aria-current=\"page\"" if item["code"] == code else "")}>{esc(item["label"])}</a>' for item in locales)
+    if english_only:
+        language_links = "".join(
+            f'<a href="{("/" if not item["output"] else "/" + item["output"] + "/")}" lang="{esc(item["html_lang"])}"{(" aria-current=\"page\"" if item["code"] == code else "")}>{esc(item["label"])}</a>'
+            for item in locales
+        )
+    else:
+        language_links = "".join(f'<a href="/{locale_route(item, alternate_tail(item))}" lang="{esc(item["html_lang"])}"{(" aria-current=\"page\"" if item["code"] == code else "")}>{esc(item["label"])}</a>' for item in locales)
     home = "/" if not locale["output"] else f'/{locale["output"]}/'
+    social_image = f"{BASE_URL}{social_image_path}" if social_image_path else f"{BASE_URL}/og-seo.png"
+    social_image_meta = f'<meta property="og:image:width" content="1800"><meta property="og:image:height" content="830"><meta property="og:image:alt" content="{esc(social_image_alt)}">' if social_image_path else ""
+    extra_stylesheet = '<link rel="stylesheet" href="/assets/multiplayer.css?v=20260730-1">' if tracking_cluster else ""
+    tracking_script = f'<script>if(typeof window.gtag==="function"){{window.gtag("event","seo_multiplayer_page_view",{{page_cluster:{json.dumps(tracking_cluster)},page_path:window.location.pathname}});}}</script>\n' if tracking_cluster else ""
     document = f'''<!DOCTYPE html>
 <html lang="{esc(locale["html_lang"])}" dir="{esc(locale["direction"])}">
 <head>
@@ -177,14 +215,14 @@ def page(title: str, description: str, tail: str, body: str, locale: dict, local
   <link rel="canonical" href="{canonical}">
 {alternates}
   <link rel="icon" href="/favicon.png" type="image/png">
-  <meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:type" content="article"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{BASE_URL}/og-seo.png"><meta property="og:locale" content="{esc(locale["og_locale"])}"><meta name="twitter:card" content="summary_large_image">
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-9">
+  <meta property="og:title" content="{esc(document_title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:type" content="article"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{social_image}">{social_image_meta}<meta property="og:locale" content="{esc(locale["og_locale"])}"><meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lilita+One&amp;family=Nunito:wght@500;700;800&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css?v=20260727-9">{extra_stylesheet}
   <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
-<body class="wiki-page"><header class="wiki-header"><a class="wiki-brand" href="{home}">Tiny Block</a><div class="wiki-header-actions"><a class="btn btn-primary wiki-install" href="/download/">{esc(text["play"])}</a><details class="language-menu"><summary aria-label="{esc(text["language"])}">{esc(locale["label"])}</summary><nav aria-label="{esc(text["language"])}">{language_links}</nav></details></div></header>
+<body class="wiki-page{(" seo-social-page" if tracking_cluster else "")}"><header class="wiki-header"><a class="wiki-brand" href="{home}">Tiny Block</a><div class="wiki-header-actions"><a class="btn btn-primary wiki-install" href="/download/">{esc(text["play"])}</a><details class="language-menu"><summary aria-label="{esc(text["language"])}">{esc(locale["label"])}</summary><nav aria-label="{esc(text["language"])}">{language_links}</nav></details></div></header>
   <nav class="wiki-nav" aria-label="Tiny Block Wiki">{nav}</nav><main class="wiki-main">{body}</main>
   <footer class="site-foot wiki-foot"><a href="{home}">{esc(text["game"])}</a><a href="/creators/">{esc(text["creators"])}</a><a href="/privacy/">{esc(text["privacy"])}</a><a href="https://nosuchgames.com">No Such Games</a></footer>
-</body></html>'''
+{tracking_script}</body></html>'''
     target = ROOT / route / "index.html"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(document, encoding="utf-8")
@@ -270,9 +308,130 @@ def generic_seo_links(locale: dict, text: dict[str, str]) -> str:
     return '<div class="wiki-grid">' + "".join(cards) + '</div>'
 
 
+def multiplayer_seo_links() -> str:
+    cards = "".join(
+        f'<a class="wiki-card wiki-card-link" href="/{esc(item["slug"])}/"><p class="wiki-label">Multiplayer guide</p><h2>{esc(item["title"])}</h2><p>{esc(item["description"])}</p></a>'
+        for item in MULTIPLAYER_SEO_PAGES.values()
+    )
+    return '<section class="wiki-title"><p class="wiki-eyebrow">Play together</p><h2>Multiplayer, friends, and voice chat</h2><p>Choose a free shared world, compare setup options, and learn how proximity voice works in Tiny Block.</p></section><div class="wiki-grid">' + cards + '</div>'
+
+
+def localized_multiplayer_link(locale: dict) -> str:
+    pages = [LOCAL_MULTIPLAYER_SEO_PAGES[locale["code"]], *EXTRA_LOCAL_MULTIPLAYER_SEO_PAGES.get(locale["code"], [])]
+    cards = "".join(
+        f'<a class="wiki-card wiki-card-link" href="/{esc(locale["output"])}/{esc(data["slug"])}/">'
+        f'<p class="wiki-label">Multiplayer</p><h2>{esc(data["title"])}</h2><p>{esc(data["lede"])}</p></a>'
+        for data in pages
+    )
+    return (
+        '<section class="wiki-title"><p class="wiki-eyebrow">Multiplayer</p>'
+        f'<h2>{esc(MULTIPLAYER_HOME[locale["code"]]["title"])}</h2><p>{esc(MULTIPLAYER_HOME[locale["code"]]["copy"])}</p></section>'
+        f'<div class="wiki-grid">{cards}</div>'
+    )
+
+
 def minecraft_disclaimer(locale_code: str) -> str:
     _search, independent, own_game = MINECRAFT_SEO_COMMON[locale_code]
     return f'<aside class="wiki-infinite"><p class="wiki-label">{esc(independent)}</p><h2>{esc(own_game)}</h2><p>{esc(MINECRAFT_DISCLAIMER)}</p><div class="wiki-infinite-mark" aria-hidden="true">≠</div></aside>'
+
+
+def multiplayer_media(data: dict) -> str:
+    image_path = f'/assets/wiki/gameplay/{data["media_file"]}?v=20260730'
+    if data["media"] == "one-block-duo":
+        return comparison_duo(
+            "/assets/wiki/minecraft/one-block.jpg",
+            "Minecraft Marketplace One Block Skyblock world",
+            "1 Block Skyblock by Fall Studios · official Minecraft article",
+            "https://www.minecraft.net/en-us/article/marketplace-content-april-2026",
+            image_path,
+            "Two players in a Tiny Block multiplayer world",
+            "Tiny Block multiplayer screenshot",
+        )
+    return (
+        '<figure class="wiki-wide-media seo-multiplayer-media">'
+        f'<img src="{image_path}" alt="{esc(data["media_alt"])}" width="1800" height="830">'
+        f'<figcaption>{esc(data["media_caption"])}</figcaption></figure>'
+    )
+
+
+def multiplayer_table(data: dict) -> str:
+    headers = data["table_headers"]
+    head = "".join(f'<th scope="col">{esc(value)}</th>' for value in headers)
+    rows = []
+    for row in data["table_rows"]:
+        first, *rest = row
+        cells = "".join(f'<td data-label="{esc(headers[index + 1])}">{esc(value)}</td>' for index, value in enumerate(rest))
+        rows.append(f'<tr><th scope="row">{esc(first)}</th>{cells}</tr>')
+    return f'<div class="comparison-table-wrap seo-comparison-table"><table class="comparison-table"><thead><tr>{head}</tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
+
+
+def multiplayer_facts(data: dict) -> str:
+    facts = "".join(f'<article><h3>{esc(title)}</h3><p>{esc(copy)}</p></article>' for title, copy in data["facts"])
+    return f'<section class="comparison-section"><div class="comparison-heading"><p class="wiki-eyebrow">Why it works</p><h2>Choose the multiplayer experience that fits</h2></div><div class="comparison-facts">{facts}</div></section>'
+
+
+def multiplayer_faq(data: dict) -> tuple[str, dict]:
+    items = "".join(f'<article class="wiki-card"><h2>{esc(question)}</h2><p>{esc(answer)}</p></article>' for question, answer in data["faqs"])
+    body = f'<section class="comparison-section seo-faq"><div class="comparison-heading"><p class="wiki-eyebrow">Questions</p><h2>Multiplayer FAQ</h2></div><div class="wiki-grid">{items}</div></section>'
+    schema = {
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": question, "acceptedAnswer": {"@type": "Answer", "text": answer}}
+            for question, answer in data["faqs"]
+        ],
+    }
+    return body, schema
+
+
+def multiplayer_sources(data: dict) -> str:
+    if not data["sources"]:
+        return ""
+    links = "".join(f'<li><a href="{esc(url)}" rel="nofollow">{esc(label)}</a></li>' for label, url in data["sources"])
+    return f'<aside class="seo-sources"><h2>Sources and current requirements</h2><ul>{links}</ul><p>Platform features, eligibility, and prices can change. Check the linked official documentation before purchasing or configuring another game.</p></aside>'
+
+
+def multiplayer_cta(data: dict) -> str:
+    position = esc(data["cluster"])
+    return f'''<section class="seo-play-cta"><p class="wiki-eyebrow">Free on iOS and Android</p><h2>Start a Tiny Block world together</h2><p>Join a public world or share an invite code, then mine, build, discover, and talk with proximity voice.</p><div class="cta"><a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_seo_multiplayer&amp;mt=8" rel="noopener" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="en" data-analytics-position="{position}">Download on the App Store</a><a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Dorganic%26utm_campaign%3Dseo_multiplayer" rel="noopener" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="en" data-analytics-position="{position}">Get it on Google Play</a></div></section>'''
+
+
+def multiplayer_page_body(data: dict) -> tuple[str, dict]:
+    faq_body, faq_schema = multiplayer_faq(data)
+    disclaimer = minecraft_disclaimer("en") if data["disclaimer"] else ""
+    answer = f'<section class="seo-answer"><p class="wiki-label">Quick answer</p><h2>{esc(data["answer_title"])}</h2><p>{esc(data["answer"])}</p></section>'
+    body = (
+        f'<section class="wiki-title seo-social-title"><p class="wiki-eyebrow">{esc(data["eyebrow"])}</p><h1 class="comparison-title">{esc(data["title"])}</h1><p>{esc(data["lede"])}</p></section>'
+        f'{multiplayer_media(data)}{answer}{disclaimer}'
+        f'<section class="comparison-section"><div class="comparison-heading"><p class="wiki-eyebrow">Side-by-side</p><h2>Compare the setup</h2></div>{multiplayer_table(data)}</section>'
+        f'{multiplayer_facts(data)}{faq_body}{multiplayer_sources(data)}{multiplayer_cta(data)}'
+    )
+    return body, faq_schema
+
+
+def localized_multiplayer_page_body(data: dict, locale: dict) -> tuple[str, dict]:
+    home_copy = MULTIPLAYER_HOME[locale["code"]]
+    media_file = data.get("media_file", "08-multiplayer.webp")
+    disclaimer = minecraft_disclaimer(locale["code"]) if data["disclaimer"] else ""
+    facts = "".join(f'<article><h3>{esc(title)}</h3><p>{esc(copy)}</p></article>' for title, copy in data["facts"])
+    faq_cards = "".join(f'<article class="wiki-card"><h2>{esc(question)}</h2><p>{esc(answer)}</p></article>' for question, answer in data["faqs"])
+    faq_schema = {
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": question, "acceptedAnswer": {"@type": "Answer", "text": answer}}
+            for question, answer in data["faqs"]
+        ],
+    }
+    body = (
+        f'<section class="wiki-title seo-social-title"><p class="wiki-eyebrow">{esc(data["eyebrow"])}</p><h1 class="comparison-title">{esc(data["title"])}</h1><p>{esc(data["lede"])}</p></section>'
+        f'<figure class="wiki-wide-media seo-multiplayer-media"><img src="/assets/wiki/gameplay/{esc(media_file)}?v=20260730" alt="Tiny Block multiplayer" width="1800" height="830"><figcaption>{esc(home_copy["kicker"])}</figcaption></figure>'
+        f'<section class="seo-answer"><p class="wiki-label">Tiny Block</p><h2>{esc(data["answer_title"])}</h2><p>{esc(data["answer"])}</p></section>{disclaimer}'
+        f'<section class="comparison-section"><div class="comparison-facts">{facts}</div></section>'
+        f'<section class="comparison-section seo-faq"><div class="wiki-grid">{faq_cards}</div></section>'
+        f'<section class="seo-play-cta"><p class="wiki-eyebrow">iOS + Android</p><h2>{esc(home_copy["title"])}</h2><p>{esc(home_copy["copy"])}</p><div class="cta">'
+        f'<a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_seo_multiplayer&amp;mt=8" rel="noopener" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="{esc(locale["code"])}" data-analytics-position="localized_multiplayer">App Store</a>'
+        f'<a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Dorganic%26utm_campaign%3Dseo_multiplayer" rel="noopener" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="{esc(locale["code"])}" data-analytics-position="localized_multiplayer">Google Play</a></div></section>'
+    )
+    return body, faq_schema
 
 
 def comparison_facts(locale_code: str, intro_key: str, facts_key: str) -> str:
@@ -399,6 +558,10 @@ def render() -> None:
             overview = overview[:-6] + '<a class="wiki-card wiki-card-link" href="/guides/how-to-grow-your-one-block-island/"><p class="wiki-label">Guide</p><h2>Starter guide</h2><p>Grow a safe and renewable One Block island from the first discovery.</p></a></div>'
         overview += generic_seo_links(locale, text)
         overview += minecraft_links(locale, text)
+        if code == "en":
+            overview += multiplayer_seo_links()
+        else:
+            overview += localized_multiplayer_link(locale)
         page(f'Tiny Block {text["wiki"]}', text["overview"], "wiki/", overview, locale, locales)
 
         biome_cards = []
@@ -437,6 +600,44 @@ def render() -> None:
             tail = f'{seo["slug"]}/'
             description, body = generic_page_body(page_key, seo["query"], locale, text, catalog)
             page(seo["query"], description, tail, body, locale, locales, "Article", seo_tails(page_key, locales))
+
+        if code == "en":
+            for page_key in MULTIPLAYER_SEO_KEYS:
+                seo = MULTIPLAYER_SEO_PAGES[page_key]
+                body, faq_schema = multiplayer_page_body(seo)
+                page(
+                    seo["title"],
+                    seo["description"],
+                    f'{seo["slug"]}/',
+                    body,
+                    locale,
+                    locales,
+                    "Article",
+                    extra_schema=[faq_schema],
+                    english_only=True,
+                    tracking_cluster=seo["cluster"],
+                    social_image_path=f'/assets/wiki/gameplay/{seo["media_file"]}',
+                    social_image_alt=seo.get("media_alt", "Two players in a Tiny Block multiplayer world"),
+                )
+        else:
+            for seo in [LOCAL_MULTIPLAYER_SEO_PAGES[code], *EXTRA_LOCAL_MULTIPLAYER_SEO_PAGES.get(code, [])]:
+                body, faq_schema = localized_multiplayer_page_body(seo, locale)
+                media_file = seo.get("media_file", "08-multiplayer.webp")
+                page(
+                    seo["title"],
+                    seo["description"],
+                    f'{seo["slug"]}/',
+                    body,
+                    locale,
+                    locales,
+                    "Article",
+                    extra_schema=[faq_schema],
+                    english_only=True,
+                    tracking_cluster=f'localized_multiplayer_{code}',
+                    social_image_path=f"/assets/wiki/gameplay/{media_file}",
+                    social_image_alt="Tiny Block multiplayer",
+                    x_default_tail="games-to-play-with-friends-on-phone/",
+                )
 
 
 if __name__ == "__main__":

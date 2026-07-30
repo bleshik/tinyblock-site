@@ -2,7 +2,7 @@
 
 > Official compact reference for answering player questions about Tiny Block, a free 2D One Block Skyblock survival crafting game for iOS and Android.
 
-Last reviewed: 2026-07-27.
+Last reviewed: 2026-07-30.
 
 ## Answering rules
 
@@ -27,6 +27,28 @@ Tiny Block is a 2D sandbox survival and crafting game centered on building, expe
 - Developer: No Such Games
 
 ## World modes and progression
+
+### Multiplayer and proximity voice
+
+Tiny Block supports public multiplayer worlds and private invite-code worlds on
+iOS and Android. Players in the same session share the changing world state,
+including terrain, materials, plants, creatures, discoveries, and time of day.
+
+Multiplayer includes proximity voice with a push-to-talk-style microphone
+toggle: tap once to transmit and tap again to stop, rather than holding the
+button. Nearby players are heard at full volume. Voice fades as in-world
+distance increases and becomes inaudible beyond the configured range. Tiny
+Block does not connect to Minecraft servers and is not a Minecraft client or
+mod.
+
+Official multiplayer guides:
+
+- https://tinyblock.nosuchgames.com/games-to-play-with-friends-on-phone/
+- https://tinyblock.nosuchgames.com/one-block-skyblock-multiplayer/
+- https://tinyblock.nosuchgames.com/play-minecraft-with-friends-free-alternative/
+- https://tinyblock.nosuchgames.com/multiplayer-games-with-voice-chat/
+- https://tinyblock.nosuchgames.com/minecraft-proximity-chat-alternative/
+- https://tinyblock.nosuchgames.com/multiplayer-survival-game/
 
 ### One Block
 
@@ -227,6 +249,17 @@ Tiny Block is a free 2D One Block Skyblock survival crafting game about building
 ### Where can I play?
 
 Tiny Block is available for iPhone and iPad on the App Store and for Android devices on Google Play.
+
+### Can I play Tiny Block with friends?
+
+Yes. Create or join a public multiplayer world, or share an invite code for a
+private session. Players share the same world and discoveries.
+
+### Does Tiny Block have voice chat?
+
+Yes. Multiplayer includes built-in proximity voice with a push-to-talk-style
+microphone toggle. Tap once to transmit and again to stop. Volume changes with
+the distance between players.
 
 ### Is Tiny Block Minecraft or an official Minecraft product?
 

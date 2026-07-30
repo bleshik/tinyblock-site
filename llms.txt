@@ -29,6 +29,15 @@ For a compact self-contained gameplay reference, read [Full Tiny Block game cont
 - [Island Building Game](https://tinyblock.nosuchgames.com/island-building-game/): How a one-block start grows into a safe living island with new structures and biomes
 - [Combine Elements Game](https://tinyblock.nosuchgames.com/combine-elements-game/): Confirmed combinations and the open-ended discovery system
 
+## Multiplayer, friends, and voice chat
+
+- [Games to Play With Friends on Your Phone](https://tinyblock.nosuchgames.com/games-to-play-with-friends-on-phone/): Mobile multiplayer comparison with price, setup, world style, and voice options
+- [One Block Skyblock Multiplayer](https://tinyblock.nosuchgames.com/one-block-skyblock-multiplayer/): Minecraft One Block setup compared with Tiny Block public and invite-code worlds
+- [Play Minecraft With Friends: Free Alternative](https://tinyblock.nosuchgames.com/play-minecraft-with-friends-free-alternative/): Official Minecraft requirements and a clearly labelled free independent alternative
+- [Multiplayer Games With Voice Chat](https://tinyblock.nosuchgames.com/multiplayer-games-with-voice-chat/): Mobile voice-chat comparison and Tiny Block proximity voice
+- [Minecraft Proximity Chat Alternative](https://tinyblock.nosuchgames.com/minecraft-proximity-chat-alternative/): Mods and add-ons compared with built-in Tiny Block voice
+- [Free Multiplayer Survival Game](https://tinyblock.nosuchgames.com/multiplayer-survival-game/): Shared survival, crafting, building, public worlds, invite codes, and voice
+
 ## Languages
 
 - [Deutsch](https://tinyblock.nosuchgames.com/de/wiki/)

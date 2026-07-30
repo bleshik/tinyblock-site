@@ -6,10 +6,13 @@ from __future__ import annotations
 import datetime as dt
 import html
 import json
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from string import Template
 
 from wiki_i18n import TEXT as WIKI_TEXT
+from multiplayer_seo_locales import EXTRA_PAGES as EXTRA_LOCAL_MULTIPLAYER_SEO_PAGES
+from multiplayer_seo_locales import PAGES as LOCAL_MULTIPLAYER_SEO_PAGES
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +20,12 @@ BASE_URL = "https://tinyblock.nosuchgames.com"
 APP_STORE_URL = "https://apps.apple.com/app/id6793160455"
 GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock"
 STATIC_ROUTES = [
+    ("games-to-play-with-friends-on-phone/", "weekly", "0.8"),
+    ("one-block-skyblock-multiplayer/", "weekly", "0.8"),
+    ("play-minecraft-with-friends-free-alternative/", "weekly", "0.8"),
+    ("multiplayer-games-with-voice-chat/", "weekly", "0.8"),
+    ("minecraft-proximity-chat-alternative/", "weekly", "0.8"),
+    ("multiplayer-survival-game/", "weekly", "0.8"),
     ("wiki/", "weekly", "0.8"),
     ("wiki/biomes/", "monthly", "0.7"),
     ("wiki/materials/", "monthly", "0.7"),
@@ -29,6 +38,30 @@ STATIC_ROUTES = [
 ]
 WIKI_ROUTES = ["wiki/", "wiki/biomes/", "wiki/materials/", "wiki/creatures/", "wiki/plants/", "wiki/recipes/"]
 SEO_DATA = json.loads((ROOT / "content" / "seo-keywords.json").read_text(encoding="utf-8"))
+MULTIPLAYER_HOME = json.loads((ROOT / "content" / "multiplayer-home.json").read_text(encoding="utf-8"))
+
+
+def previous_sitemap_dates() -> dict[str, str]:
+    sitemap_path = ROOT / "sitemap.xml"
+    if not sitemap_path.exists():
+        return {}
+    try:
+        document = ET.parse(sitemap_path)
+    except ET.ParseError:
+        return {}
+    namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    result = {}
+    for entry in document.findall("s:url", namespace):
+        location = entry.findtext("s:loc", default="", namespaces=namespace)
+        lastmod = entry.findtext("s:lastmod", default="", namespaces=namespace)
+        if location and lastmod:
+            result[location] = lastmod
+    return result
+
+
+def sitemap_entry(url: str, previous_dates: dict[str, str], today: str, changefreq: str, priority: str, force_today: bool = False) -> str:
+    lastmod = today if force_today else previous_dates.get(url, today)
+    return f"  <url><loc>{url}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
 
 
 def route_url(locale: dict) -> str:
@@ -81,6 +114,7 @@ def render() -> None:
                     "applicationCategory": "GameApplication",
                     "operatingSystem": ["iOS", "Android"],
                     "genre": ["Sandbox", "Survival", "Crafting", "Skyblock"],
+                    "playMode": ["SinglePlayer", "MultiPlayer", "CoOp"],
                     "author": {"@type": "Organization", "name": "No Such Games", "url": "https://nosuchgames.com"},
                     "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
                     "sameAs": [APP_STORE_URL, GOOGLE_PLAY_URL],
@@ -112,6 +146,12 @@ def render() -> None:
                 "current_language": html.escape(locale["label"]),
                 "wiki_path": "/wiki/" if not locale["output"] else f"/{locale['output']}/wiki/",
                 "wiki_label": html.escape(WIKI_TEXT[locale["code"]]["wiki"]),
+                "multiplayer_kicker": html.escape(MULTIPLAYER_HOME[locale["code"]]["kicker"]),
+                "multiplayer_title": html.escape(MULTIPLAYER_HOME[locale["code"]]["title"]),
+                "multiplayer_copy": html.escape(MULTIPLAYER_HOME[locale["code"]]["copy"]),
+                "multiplayer_public": html.escape(MULTIPLAYER_HOME[locale["code"]]["public"]),
+                "multiplayer_private": html.escape(MULTIPLAYER_HOME[locale["code"]]["private"]),
+                "multiplayer_voice": html.escape(MULTIPLAYER_HOME[locale["code"]]["voice"]),
             }
         )
         rendered = template.safe_substitute(values)
@@ -120,23 +160,52 @@ def render() -> None:
         target.write_text(rendered, encoding="utf-8")
 
     lastmod = dt.date.today().isoformat()
+    previous_dates = previous_sitemap_dates()
+    force_today = {
+        *(route_url(locale) for locale in locales),
+        *(f"{BASE_URL}/{locale['output'] + '/' if locale['output'] else ''}wiki/" for locale in locales),
+        *(f"{BASE_URL}/{route}" for route, _changefreq, _priority in STATIC_ROUTES[:6]),
+    }
     urls = "\n".join(
-        f"  <url><loc>{route_url(locale)}</loc><lastmod>{lastmod}</lastmod><changefreq>weekly</changefreq><priority>{'1.0' if not locale['output'] else '0.8'}</priority></url>"
+        sitemap_entry(route_url(locale), previous_dates, lastmod, "weekly", "1.0" if not locale["output"] else "0.8", route_url(locale) in force_today)
         for locale in locales
     )
     urls += "\n" + "\n".join(
-        f"  <url><loc>{BASE_URL}/{route}</loc><lastmod>{lastmod}</lastmod><changefreq>{changefreq}</changefreq><priority>{priority}</priority></url>"
+        sitemap_entry(f"{BASE_URL}/{route}", previous_dates, lastmod, changefreq, priority, f"{BASE_URL}/{route}" in force_today)
         for route, changefreq, priority in STATIC_ROUTES
     )
     urls += "\n" + "\n".join(
-        f"  <url><loc>{BASE_URL}/{locale['output']}/{route}</loc><lastmod>{lastmod}</lastmod><changefreq>{'weekly' if route == 'wiki/' else 'monthly'}</changefreq><priority>{'0.8' if route == 'wiki/' else '0.7'}</priority></url>"
+        sitemap_entry(f"{BASE_URL}/{locale['output']}/{route}", previous_dates, lastmod, "weekly" if route == "wiki/" else "monthly", "0.8" if route == "wiki/" else "0.7")
         for locale in locales if locale["output"]
         for route in WIKI_ROUTES
     )
     urls += "\n" + "\n".join(
-        f"  <url><loc>{BASE_URL}/{locale['output'] + '/' if locale['output'] else ''}{page['locales'][locale['code']]['slug']}/</loc><lastmod>{lastmod}</lastmod><changefreq>monthly</changefreq><priority>{'0.7' if locale['code'] == 'en' else '0.6'}</priority></url>"
+        sitemap_entry(f"{BASE_URL}/{locale['output'] + '/' if locale['output'] else ''}{page['locales'][locale['code']]['slug']}/", previous_dates, lastmod, "monthly", "0.7" if locale["code"] == "en" else "0.6")
         for locale in locales
         for page in SEO_DATA["pages"].values()
+    )
+    urls += "\n" + "\n".join(
+        sitemap_entry(
+            f"{BASE_URL}/{locale['output']}/{LOCAL_MULTIPLAYER_SEO_PAGES[locale['code']]['slug']}/",
+            previous_dates,
+            lastmod,
+            "weekly",
+            "0.8",
+            True,
+        )
+        for locale in locales if locale["code"] != "en"
+    )
+    urls += "\n" + "\n".join(
+        sitemap_entry(
+            f"{BASE_URL}/{locale['output']}/{page['slug']}/",
+            previous_dates,
+            lastmod,
+            "weekly",
+            "0.8",
+            True,
+        )
+        for locale in locales if locale["code"] != "en"
+        for page in EXTRA_LOCAL_MULTIPLAYER_SEO_PAGES.get(locale["code"], [])
     )
     sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
