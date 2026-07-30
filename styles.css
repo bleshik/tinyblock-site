@@ -255,6 +255,39 @@ h1 {
   backdrop-filter: blur(6px);
 }
 
+.hero-multiplayer {
+  margin: 1.15rem 0 0;
+}
+
+.hero-multiplayer strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-multiplayer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-multiplayer li {
+  padding: 0.42rem 0.62rem;
+  color: #17577f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: rgba(244, 251, 255, 0.52);
+  border: 2px solid rgba(255, 255, 255, 0.46);
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
 .stage {
   position: relative;
   min-height: 360px;

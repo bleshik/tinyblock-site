@@ -115,6 +115,11 @@ def render() -> None:
                     "operatingSystem": ["iOS", "Android"],
                     "genre": ["Sandbox", "Survival", "Crafting", "Skyblock"],
                     "playMode": ["SinglePlayer", "MultiPlayer", "CoOp"],
+                    "featureList": [
+                        MULTIPLAYER_HOME[locale["code"]]["public"],
+                        MULTIPLAYER_HOME[locale["code"]]["private"],
+                        MULTIPLAYER_HOME[locale["code"]]["voice"],
+                    ],
                     "author": {"@type": "Organization", "name": "No Such Games", "url": "https://nosuchgames.com"},
                     "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
                     "sameAs": [APP_STORE_URL, GOOGLE_PLAY_URL],

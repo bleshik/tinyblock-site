@@ -19,6 +19,20 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE_URL = "https://tinyblock.nosuchgames.com"
 MULTIPLAYER_HOME = json.loads((ROOT / "content" / "multiplayer-home.json").read_text(encoding="utf-8"))
 LOCALE_COLUMNS = {"en":"en","de":"de","es":"es","fr":"fr","it":"it","pt-br":"pt_BR","ar":"ar","ja":"ja","ko":"ko","ru":"ru","zh-hans":"zh_Hans","zh-hant":"zh_Hant"}
+MULTIPLAYER_NAV = {
+    "en": "Multiplayer",
+    "de": "Mehrspieler",
+    "es": "Multijugador",
+    "fr": "Multijoueur",
+    "it": "Multiplayer",
+    "pt-br": "Multiplayer",
+    "ar": "لعب جماعي",
+    "ja": "マルチプレイ",
+    "ko": "멀티플레이",
+    "ru": "Мультиплеер",
+    "zh-hans": "多人联机",
+    "zh-hant": "多人連線",
+}
 
 BIOMES = [
     ("Plains", "Open grassland with occasional trees.", "Grass, dirt, stone", "Meadow Bloom, Prairie Sprig, Oak, Weeping Tree", "Meadow Hopper, Forest Fox, Sky Mote", "plains.webp", "plains"),
@@ -176,6 +190,8 @@ def page(
     schema = {"@context":"https://schema.org","@graph":graph}
     nav_items = [("wiki","wiki/"),("biomes","wiki/biomes/"),("materials","wiki/materials/"),("creatures","wiki/creatures/"),("plants","wiki/plants/"),("recipes","wiki/recipes/")]
     nav = "".join(f'<a href="/{locale_route(locale, href)}">{esc(text[key])}</a>' for key, href in nav_items)
+    multiplayer_href = "/games-to-play-with-friends-on-phone/" if code == "en" else f'/{locale["output"]}/{LOCAL_MULTIPLAYER_SEO_PAGES[code]["slug"]}/'
+    nav += f'<a href="{esc(multiplayer_href)}">{esc(MULTIPLAYER_NAV[code])}</a>'
     if code == "en":
         nav += '<a href="/guides/how-to-grow-your-one-block-island/">Starter guide</a>'
     if english_only:
