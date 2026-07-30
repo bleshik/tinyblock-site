@@ -39,6 +39,20 @@ STATIC_ROUTES = [
 WIKI_ROUTES = ["wiki/", "wiki/biomes/", "wiki/materials/", "wiki/creatures/", "wiki/plants/", "wiki/recipes/"]
 SEO_DATA = json.loads((ROOT / "content" / "seo-keywords.json").read_text(encoding="utf-8"))
 MULTIPLAYER_HOME = json.loads((ROOT / "content" / "multiplayer-home.json").read_text(encoding="utf-8"))
+FREE_LABELS = {
+    "en": "FREE",
+    "de": "KOSTENLOS",
+    "es": "GRATIS",
+    "fr": "GRATUIT",
+    "it": "GRATIS",
+    "pt-br": "GRÁTIS",
+    "ar": "مجانًا",
+    "ja": "無料",
+    "ko": "무료",
+    "ru": "БЕСПЛАТНО",
+    "zh-hans": "免费",
+    "zh-hant": "免費",
+}
 
 
 def previous_sitemap_dates() -> dict[str, str]:
@@ -157,6 +171,7 @@ def render() -> None:
                 "multiplayer_public": html.escape(MULTIPLAYER_HOME[locale["code"]]["public"]),
                 "multiplayer_private": html.escape(MULTIPLAYER_HOME[locale["code"]]["private"]),
                 "multiplayer_voice": html.escape(MULTIPLAYER_HOME[locale["code"]]["voice"]),
+                "free_label": html.escape(FREE_LABELS[locale["code"]]),
             }
         )
         rendered = template.safe_substitute(values)

@@ -260,12 +260,24 @@ h1 {
 }
 
 .hero-multiplayer strong {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
   color: var(--ink);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.hero-free {
+  padding: 0.3rem 0.55rem;
+  color: var(--ink);
+  background: var(--accent);
+  border: 2px solid rgba(20, 48, 71, 0.14);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 rgba(20, 48, 71, 0.12);
 }
 
 .hero-multiplayer ul {
@@ -286,6 +298,10 @@ h1 {
   border: 2px solid rgba(255, 255, 255, 0.46);
   border-radius: 999px;
   backdrop-filter: blur(6px);
+}
+
+.hero-multiplayer + .platforms {
+  margin-top: 1.35rem;
 }
 
 .stage {
