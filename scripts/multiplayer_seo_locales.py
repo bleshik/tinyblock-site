@@ -171,7 +171,7 @@ EXTRA_PAGES = {
         "facts": [["Control tipo push to talk", "Un toque activa el micrófono y otro lo desactiva."], ["El mundo define el volumen", "La voz se vuelve más baja según aumenta la distancia entre jugadores."], ["Voz y construcción", "Coordina minería, cuevas, materiales, criaturas y biomas sin cambiar a una llamada externa."]],
         "faqs": [["¿Qué juego móvil tiene chat de voz integrado?", "Tiny Block incluye voz por proximidad en sus mundos multijugador."], ["¿Es push to talk?", "Usa un control similar, pero funciona como interruptor: un toque para hablar y otro para parar."], ["¿Puedo usarlo en un mundo privado?", "Sí. Comparte un código de invitación solo con tus amigos." ]],
         "disclaimer": False,
-        "media_file": "09-multiplayer-voice.webp",
+        "media_file": "12-multiplayer-mic-visible.webp",
     }],
     "fr": [{
         "slug": "jouer-a-minecraft-avec-des-amis-alternative-gratuite",
@@ -219,7 +219,7 @@ EXTRA_PAGES = {
         "facts": [["プッシュトゥトーク型", "ボタンを押し続けず、1回ずつのタップでマイクをオン・オフします。"], ["距離で変わる声", "洞窟や広い世界で離れると、声も自然に遠ざかります。"], ["公開・招待ワールド", "知らないプレイヤーと遊ぶことも、コードで友達だけを招待することもできます。"]],
         "faqs": [["ボイスチャットがある無料スマホゲームは？", "Tiny Blockはマルチプレイに近接ボイスを内蔵しています。"], ["プッシュトゥトークですか？", "目的は同じですが長押し式ではなく、タップで切り替える方式です。"], ["別の通話アプリは必要？", "いいえ。音声はゲーム内のマルチプレイに組み込まれています。"]],
         "disclaimer": False,
-        "media_file": "09-multiplayer-voice.webp",
+        "media_file": "12-multiplayer-mic-visible.webp",
     }],
     "ko": [{
         "slug": "보이스-챗-게임",
@@ -232,6 +232,6 @@ EXTRA_PAGES = {
         "facts": [["푸시 투 토크 스타일", "버튼을 계속 누르지 않고 탭으로 마이크를 켜고 끕니다."], ["거리 기반 음량", "동굴이나 넓은 월드에서 떨어지면 목소리도 자연스럽게 멀어집니다."], ["공개·초대 월드", "공개 월드에 참가하거나 초대 코드로 친구만 불러 함께 플레이하세요."]],
         "faqs": [["보이스 채팅이 있는 무료 모바일 게임은?", "Tiny Block은 멀티플레이에 근접 음성을 내장하고 있습니다."], ["푸시 투 토크인가요?", "목적은 같지만 길게 누르는 방식이 아니라 탭으로 전환하는 방식입니다."], ["별도 통화 앱이 필요한가요?", "아니요. 음성 기능은 게임 안에 포함되어 있습니다."]],
         "disclaimer": False,
-        "media_file": "09-multiplayer-voice.webp",
+        "media_file": "12-multiplayer-mic-visible.webp",
     }],
 }

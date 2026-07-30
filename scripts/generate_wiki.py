@@ -426,7 +426,7 @@ def multiplayer_page_body(data: dict) -> tuple[str, dict]:
 
 def localized_multiplayer_page_body(data: dict, locale: dict) -> tuple[str, dict]:
     home_copy = MULTIPLAYER_HOME[locale["code"]]
-    media_file = data.get("media_file", "08-multiplayer.webp")
+    media_file = data.get("media_file", "12-multiplayer-mic-visible.webp")
     disclaimer = minecraft_disclaimer(locale["code"]) if data["disclaimer"] else ""
     facts = "".join(f'<article><h3>{esc(title)}</h3><p>{esc(copy)}</p></article>' for title, copy in data["facts"])
     faq_cards = "".join(f'<article class="wiki-card"><h2>{esc(question)}</h2><p>{esc(answer)}</p></article>' for question, answer in data["faqs"])
@@ -638,7 +638,7 @@ def render() -> None:
         else:
             for seo in [LOCAL_MULTIPLAYER_SEO_PAGES[code], *EXTRA_LOCAL_MULTIPLAYER_SEO_PAGES.get(code, [])]:
                 body, faq_schema = localized_multiplayer_page_body(seo, locale)
-                media_file = seo.get("media_file", "08-multiplayer.webp")
+                media_file = seo.get("media_file", "12-multiplayer-mic-visible.webp")
                 page(
                     seo["title"],
                     seo["description"],
