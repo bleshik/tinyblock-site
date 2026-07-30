@@ -188,7 +188,7 @@ def page(
     home = "/" if not locale["output"] else f'/{locale["output"]}/'
     social_image = f"{BASE_URL}{social_image_path}" if social_image_path else f"{BASE_URL}/og-seo.png"
     social_image_meta = f'<meta property="og:image:width" content="1800"><meta property="og:image:height" content="830"><meta property="og:image:alt" content="{esc(social_image_alt)}">' if social_image_path else ""
-    extra_stylesheet = '<link rel="stylesheet" href="/assets/multiplayer.css?v=20260730-1">' if tracking_cluster else ""
+    extra_stylesheet = '<link rel="stylesheet" href="/assets/multiplayer.css?v=20260730-2">' if tracking_cluster else ""
     tracking_script = f'<script>if(typeof window.gtag==="function"){{window.gtag("event","seo_multiplayer_page_view",{{page_cluster:{json.dumps(tracking_cluster)},page_path:window.location.pathname}});}}</script>\n' if tracking_cluster else ""
     document = f'''<!DOCTYPE html>
 <html lang="{esc(locale["html_lang"])}" dir="{esc(locale["direction"])}">

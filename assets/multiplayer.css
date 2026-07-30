@@ -26,6 +26,10 @@
   background: rgba(244, 251, 255, 0.94);
 }
 
+.seo-social-page .seo-answer + .wiki-infinite {
+  margin-top: 1.5rem;
+}
+
 .seo-answer h2,
 .seo-sources h2,
 .seo-play-cta h2 {
