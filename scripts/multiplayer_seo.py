@@ -50,7 +50,7 @@ PAGES = {
         "answer_title": "Two ways to play One Block with friends",
         "answer": "In Minecraft, multiplayer One Block usually starts with a compatible community map and a shared local world, server, or Realm. Tiny Block includes its own 2D One Block mode: install the free game, create a public or invite-code world, and grow it together without finding a separate map or hosting a Minecraft server.",
         "media": "one-block-duo",
-        "media_file": "08-multiplayer.webp",
+        "media_file": "11-one-block-multiplayer.webp",
         "disclaimer": True,
         "table_headers": ["Step", "Minecraft One Block", "Tiny Block multiplayer"],
         "table_rows": [
