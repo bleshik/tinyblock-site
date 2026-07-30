@@ -273,11 +273,11 @@ h1 {
 
 .hero-free {
   padding: 0.3rem 0.55rem;
-  color: var(--ink);
-  background: var(--accent);
-  border: 2px solid rgba(20, 48, 71, 0.14);
+  color: #103d2a;
+  background: #72e59a;
+  border: 2px solid rgba(16, 86, 51, 0.22);
   border-radius: 999px;
-  box-shadow: 0 4px 0 rgba(20, 48, 71, 0.12);
+  box-shadow: 0 4px 0 rgba(16, 86, 51, 0.16);
 }
 
 .hero-multiplayer ul {
