@@ -12,7 +12,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git", exact: "13.7.0"),
         .package(url: "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git", exact: "3.1.0"),
-        .package(url: "https://github.com/googleads/googleads-mobile-ios-mediation-mintegral.git", exact: "8.1.500"),
         .package(url: "https://github.com/googleads/googleads-mobile-ios-mediation-liftoffmonetize.git", exact: "7.7.400"),
     ],
     targets: [
@@ -21,7 +20,6 @@ let package = Package(
             dependencies: [
                 .product(name: "GoogleMobileAds", package: "swift-package-manager-google-mobile-ads"),
                 .product(name: "GoogleUserMessagingPlatform", package: "swift-package-manager-google-user-messaging-platform"),
-                .product(name: "MintegralAdapterTarget", package: "googleads-mobile-ios-mediation-mintegral"),
                 .product(name: "LiftoffMonetizeAdapterTarget", package: "googleads-mobile-ios-mediation-liftoffmonetize"),
             ],
             path: "PoingGodotAdMobDeps"
