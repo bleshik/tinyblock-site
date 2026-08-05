@@ -1956,3 +1956,175 @@ html.ready .stage {
   .wiki-recipe-item { flex: 1 1 6.5rem; min-width: 0; }
   .wiki-recipe-item img { width: 3.25rem; height: 3.25rem; flex-basis: 3.25rem; }
 }
+
+/* Browser game */
+.play-page { background: #16344a; }
+.play-page .sky { opacity: 0.92; }
+
+.play-nav,
+.play-main,
+.play-foot {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.play-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+}
+
+.play-nav nav { display: flex; gap: 1rem; }
+.play-nav nav a { color: var(--foam); font-weight: 800; text-decoration: none; }
+.play-main { padding: 1.5rem 0 3rem; }
+
+.play-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.25rem;
+  color: var(--foam);
+}
+
+.play-heading h1 {
+  margin-bottom: 0.4rem;
+  color: var(--foam);
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  text-shadow: 0 4px 0 rgba(20, 48, 71, 0.2);
+}
+
+.play-heading p:not(.section-kicker) {
+  max-width: 46rem;
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.5;
+  color: rgba(244, 251, 255, 0.88);
+}
+
+.play-badges { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.45rem; }
+.play-badges span {
+  padding: 0.4rem 0.68rem;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: rgba(244, 251, 255, 0.82);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+}
+
+.game-card {
+  overflow: hidden;
+  background: #07131d;
+  border: 3px solid rgba(255, 255, 255, 0.58);
+  border-radius: 22px;
+  box-shadow: 0 26px 70px rgba(3, 15, 25, 0.36);
+}
+
+.game-card-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.6rem;
+  padding: 0.65rem 0.9rem 0.65rem 1.1rem;
+  color: var(--foam);
+  background: #102a3e;
+}
+
+.game-card-bar div { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.45rem 0.8rem; }
+.game-card-bar strong { font-family: var(--font-display); font-size: 1.35rem; font-weight: 400; }
+.game-card-bar span { color: rgba(244, 251, 255, 0.7); font-size: 0.8rem; font-weight: 700; }
+
+.game-card-bar button {
+  min-height: 2.25rem;
+  padding: 0.4rem 0.8rem;
+  color: var(--ink);
+  font: 800 0.82rem var(--font-body);
+  background: var(--accent);
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.game-frame-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #050d13; }
+.game-frame-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.play-save-note {
+  margin: 1rem 0 3.5rem;
+  padding: 0.8rem 1rem;
+  color: rgba(244, 251, 255, 0.86);
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+.play-content,
+.play-more {
+  background: rgba(244, 251, 255, 0.92);
+  border: 3px solid rgba(255, 255, 255, 0.55);
+  border-radius: 26px;
+  box-shadow: 0 18px 50px rgba(12, 36, 58, 0.18);
+}
+
+.play-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(17rem, 0.6fr);
+  gap: 2rem;
+  padding: clamp(1.4rem, 4vw, 2.5rem);
+}
+
+.play-content h2,
+.play-more h2 {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+}
+
+.play-content p,
+.play-more > p:not(.section-kicker) {
+  margin: 0;
+  color: rgba(20, 48, 71, 0.8);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.play-controls h2 { font-size: 1.55rem; }
+.play-controls dl { display: grid; gap: 0.35rem; margin: 0; }
+.play-controls dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0.65rem;
+  background: rgba(74, 163, 216, 0.1);
+  border-radius: 10px;
+}
+
+.play-controls dt,
+.play-controls dd { margin: 0; font-weight: 800; }
+.play-controls dd { color: #246891; }
+
+.play-more { margin-top: 2rem; padding: clamp(1.4rem, 4vw, 2.5rem); text-align: center; }
+.play-more > p:not(.section-kicker) { max-width: 45rem; margin-inline: auto; }
+.play-more .cta { justify-content: center; margin-top: 1.3rem; }
+.play-foot { padding-bottom: 2rem; color: var(--foam); font-weight: 800; }
+
+@media (max-width: 760px) {
+  .play-heading { display: block; }
+  .play-badges { justify-content: flex-start; margin-top: 1rem; }
+  .play-content { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+  .play-nav,
+  .play-main,
+  .play-foot { width: min(100% - 1rem, 1180px); }
+  .play-nav nav { gap: 0.65rem; font-size: 0.86rem; }
+  .play-main { padding-top: 0.75rem; }
+  .game-card { border-width: 2px; border-radius: 14px; }
+  .game-card-bar span { display: none; }
+  .play-save-note { margin-bottom: 2rem; }
+}
