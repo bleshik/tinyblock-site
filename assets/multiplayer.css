@@ -6,6 +6,14 @@
   margin-bottom: 1.5rem;
 }
 
+.seo-hero-cta {
+  margin-top: 1.25rem;
+}
+
+.seo-hero-cta .btn {
+  width: fit-content;
+}
+
 .seo-multiplayer-media {
   margin-top: 0;
 }
@@ -74,6 +82,49 @@
   font-size: 1.45rem;
 }
 
+.seo-step-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.seo-step-grid article {
+  position: relative;
+  padding: 1.35rem;
+  border: 2px solid rgba(20, 48, 71, 0.1);
+  border-radius: 18px;
+  background: rgba(244, 251, 255, 0.9);
+}
+
+.seo-step-grid span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  color: white;
+  background: #246891;
+  font-weight: 900;
+}
+
+.seo-step-grid h3 {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+
+.seo-step-grid p {
+  margin: 0.5rem 0 0;
+  color: rgba(20, 48, 71, 0.8);
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.seo-related-links {
+  margin-top: 1.5rem;
+}
+
 .seo-sources ul {
   display: grid;
   gap: 0.45rem;
@@ -111,6 +162,10 @@
 }
 
 @media (max-width: 760px) {
+  .seo-step-grid {
+    grid-template-columns: 1fr;
+  }
+
   .seo-comparison-table {
     overflow: hidden;
   }

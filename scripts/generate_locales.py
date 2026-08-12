@@ -20,6 +20,7 @@ BASE_URL = "https://tinyblock.nosuchgames.com"
 APP_STORE_URL = "https://apps.apple.com/app/id6793160455"
 GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock"
 STATIC_ROUTES = [
+    ("play/", "weekly", "0.9"),
     ("games-to-play-with-friends-on-phone/", "weekly", "0.8"),
     ("one-block-skyblock-multiplayer/", "weekly", "0.8"),
     ("play-minecraft-with-friends-free-alternative/", "weekly", "0.8"),
@@ -36,6 +37,15 @@ STATIC_ROUTES = [
     ("creators/", "monthly", "0.4"),
     ("privacy/", "yearly", "0.2"),
 ]
+PRODUCT_ROUTES_UPDATED_TOGETHER = {
+    "play/",
+    "games-to-play-with-friends-on-phone/",
+    "one-block-skyblock-multiplayer/",
+    "play-minecraft-with-friends-free-alternative/",
+    "multiplayer-games-with-voice-chat/",
+    "minecraft-proximity-chat-alternative/",
+    "multiplayer-survival-game/",
+}
 WIKI_ROUTES = ["wiki/", "wiki/biomes/", "wiki/materials/", "wiki/creatures/", "wiki/plants/", "wiki/recipes/"]
 SEO_DATA = json.loads((ROOT / "content" / "seo-keywords.json").read_text(encoding="utf-8"))
 MULTIPLAYER_HOME = json.loads((ROOT / "content" / "multiplayer-home.json").read_text(encoding="utf-8"))
@@ -172,9 +182,15 @@ def render() -> None:
                 "multiplayer_private": html.escape(MULTIPLAYER_HOME[locale["code"]]["private"]),
                 "multiplayer_voice": html.escape(MULTIPLAYER_HOME[locale["code"]]["voice"]),
                 "free_label": html.escape(FREE_LABELS[locale["code"]]),
+                "multiplayer_ctas": (
+                    f'<a class="btn btn-primary" href="/play/" data-analytics-event="web_play_click" data-analytics-language="{html.escape(locale["code"])}" data-analytics-position="multiplayer_home">{html.escape(WIKI_TEXT[locale["code"]]["play"])}</a>\n'
+                    f'          <a class="btn btn-ghost" href="{("/one-block-skyblock-multiplayer/" if locale["code"] == "en" else "/" + locale["output"] + "/" + LOCAL_MULTIPLAYER_SEO_PAGES[locale["code"]]["slug"] + "/")}">{html.escape(MULTIPLAYER_HOME[locale["code"]]["kicker"])}</a>'
+                ),
             }
         )
-        rendered = template.safe_substitute(values)
+        rendered = template.safe_substitute(values).replace(
+            '  <meta name="robots" content="noindex,nofollow">\n', ""
+        )
         target = ROOT / "index.html" if not locale["output"] else ROOT / locale["output"] / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(rendered, encoding="utf-8")
@@ -183,8 +199,7 @@ def render() -> None:
     previous_dates = previous_sitemap_dates()
     force_today = {
         *(route_url(locale) for locale in locales),
-        *(f"{BASE_URL}/{locale['output'] + '/' if locale['output'] else ''}wiki/" for locale in locales),
-        *(f"{BASE_URL}/{route}" for route, _changefreq, _priority in STATIC_ROUTES[:6]),
+        *(f"{BASE_URL}/{route}" for route, _changefreq, _priority in STATIC_ROUTES if route in PRODUCT_ROUTES_UPDATED_TOGETHER),
     }
     urls = "\n".join(
         sitemap_entry(route_url(locale), previous_dates, lastmod, "weekly", "1.0" if not locale["output"] else "0.8", route_url(locale) in force_today)

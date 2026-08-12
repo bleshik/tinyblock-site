@@ -45,6 +45,7 @@
     <nav aria-label="Main navigation">
       <a href="/">Home</a>
       <a href="/wiki/">Wiki</a>
+      <a href="/one-block-skyblock-multiplayer/">Multiplayer</a>
       <a href="/download/">Mobile</a>
     </nav>
   </header>
@@ -101,6 +102,8 @@
       <h2 id="play-more-title">Build together across web and mobile</h2>
       <p>Create public worlds or share an invite code with friends. For the best mobile experience, Tiny Block is also available as a free native app.</p>
       <div class="cta">
+        <a class="btn btn-primary" href="/one-block-skyblock-multiplayer/">One Block multiplayer guide</a>
+        <a class="btn btn-ghost" href="/multiplayer-games-with-voice-chat/">Voice chat guide</a>
         <a class="btn btn-primary" href="https://apps.apple.com/app/id6793160455?ct=website_play&amp;mt=8" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="app_store" data-analytics-language="en" data-analytics-position="play_page">App Store</a>
         <a class="btn btn-ghost" href="https://play.google.com/store/apps/details?id=com.nosuchgames.tinyblock&amp;referrer=utm_source%3Dtinyblock_site%26utm_medium%3Dweb_game%26utm_campaign%3Dplay_page" rel="noopener" target="_blank" data-analytics-event="store_click" data-analytics-store="google_play" data-analytics-language="en" data-analytics-position="play_page">Google Play</a>
       </div>
@@ -109,12 +112,27 @@
 
   <footer class="site-foot play-foot">
     <a href="/wiki/">Wiki</a>
+    <a href="/one-block-skyblock-multiplayer/">One Block multiplayer</a>
     <a href="/privacy/">Privacy Policy</a>
     <a href="https://nosuchgames.com" rel="noopener">No Such Games</a>
   </footer>
 
   <script>
     document.documentElement.classList.add("ready");
+    var gameStartTracked = false;
+    window.addEventListener("message", function (event) {
+      var frame = document.getElementById("tiny-block-game");
+      if (gameStartTracked || event.origin !== window.location.origin || event.source !== frame.contentWindow || !event.data || event.data.type !== "tinyblock:game-start") {
+        return;
+      }
+      gameStartTracked = true;
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "game_start", {
+          game_platform: "web",
+          page_path: window.location.pathname
+        });
+      }
+    });
     document.getElementById("fullscreen-game").addEventListener("click", function () {
       var frame = document.getElementById("tiny-block-game");
       if (frame.requestFullscreen) frame.requestFullscreen();

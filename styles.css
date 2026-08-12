@@ -703,6 +703,10 @@ html.ready .stage {
   border-radius: 999px;
 }
 
+.multiplayer-home-cta {
+  margin-top: 1.15rem;
+}
+
 .feature-card,
 .faq-section {
   background: rgba(244, 251, 255, 0.9);
