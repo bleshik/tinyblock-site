@@ -63,6 +63,20 @@ FREE_LABELS = {
     "zh-hans": "免费",
     "zh-hant": "免費",
 }
+HOST_SERVER_LABELS = {
+    "en": "Host your own server",
+    "de": "Eigenen Server hosten",
+    "es": "Aloja tu propio servidor",
+    "fr": "Hébergez votre serveur",
+    "it": "Ospita il tuo server",
+    "pt-br": "Hospede seu próprio servidor",
+    "ar": "استضف خادمك الخاص",
+    "ja": "自分のサーバーをホスト",
+    "ko": "나만의 서버 호스팅",
+    "ru": "Запустить свой сервер",
+    "zh-hans": "托管你自己的服务器",
+    "zh-hant": "託管你自己的伺服器",
+}
 
 
 def previous_sitemap_dates() -> dict[str, str]:
@@ -182,6 +196,7 @@ def render() -> None:
                 "multiplayer_private": html.escape(MULTIPLAYER_HOME[locale["code"]]["private"]),
                 "multiplayer_voice": html.escape(MULTIPLAYER_HOME[locale["code"]]["voice"]),
                 "free_label": html.escape(FREE_LABELS[locale["code"]]),
+                "host_server_label": html.escape(HOST_SERVER_LABELS[locale["code"]]),
                 "multiplayer_ctas": (
                     f'<a class="btn btn-primary" href="/play/" data-analytics-event="web_play_click" data-analytics-language="{html.escape(locale["code"])}" data-analytics-position="multiplayer_home">{html.escape(WIKI_TEXT[locale["code"]]["play"])}</a>\n'
                     f'          <a class="btn btn-ghost" href="{("/one-block-skyblock-multiplayer/" if locale["code"] == "en" else "/" + locale["output"] + "/" + LOCAL_MULTIPLAYER_SEO_PAGES[locale["code"]]["slug"] + "/")}">{html.escape(MULTIPLAYER_HOME[locale["code"]]["kicker"])}</a>'
